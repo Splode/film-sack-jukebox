@@ -7,6 +7,7 @@
 
 <script>
 import Hello from './components/Hello'
+// import API from './../static/main.js'
 
 export default {
   name: 'app',
