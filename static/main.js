@@ -13,8 +13,7 @@ oReq.onload = function() {
     console.dir(test);
     console.log(typeof test);
 };
-oReq.open("get", "./static/frog.php", true);
-//                               ^ Don't block the rest of the execution.
-//                                 Don't wait until the request finishes to
-//                                 continue.
+// oReq.open("get", "./static/frog.php", true);
+oReq.open("get", '/api/static/frog.php', true);
+
 oReq.send();
