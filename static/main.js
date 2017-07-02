@@ -2,18 +2,18 @@ function reqListener () {
   console.log(this.responseText);
 }
 
-var oReq = new XMLHttpRequest(); //New request object
-oReq.onload = function() {
+
+
+var phpReq = new XMLHttpRequest(); //New request object
+phpReq.onload = function() {
     //This is where you handle what to do with the response.
     //The actual data is found on this.responseText
-    // console.log(this.responseText);
-    // console.dir(this.responseText);
-    var test = JSON.parse(this.responseText);
-    // var test = this.responseText;
-    console.dir(test);
-    console.log(typeof test);
-};
-// oReq.open("get", "./static/frog.php", true);
-oReq.open("get", '/api/static/frog.php', true);
 
-oReq.send();
+    rssData = JSON.parse(this.responseText);
+
+    console.dir(rssData);
+};
+// phpReq.open("get", "./static/frog.php", true);
+phpReq.open("get", '/api/static/frog.php', true);
+
+phpReq.send();
