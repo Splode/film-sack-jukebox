@@ -3,6 +3,7 @@
     <h1>{{ currentEpisode.title }}</h1>
     <p>{{ currentEpisode.date }}</p>
     <audio :src="currentEpisode.link" controls></audio>
+    <button @click="randomEpisode">Random</button>
     <input type="text" v-model="search">
     <ul>
       <li v-for="(episode, index) in filteredEpisodes" v-bind:key="index">
@@ -16,7 +17,7 @@
 </template>
 
 <script>
-// TODO: create a button that retrieves a random episode
+// TODO: write currently playing episode to local storage
 
 const moment = require('moment')
 const localforage = require('localforage')
@@ -72,7 +73,10 @@ export default {
 
     // get a random episode
     randomEpisode() {
-
+      const length = this.episodes.length;
+      const rand = Math.floor(Math.random() * (length - 0 + 1)) + 0;
+      const episode = this.episodes[rand];
+      this.select(episode);
     },
 
     // retrieve data from local storage or fetch
@@ -94,6 +98,9 @@ export default {
     select(episode) {
       this.currentEpisode.title = episode.title;
       this.currentEpisode.link = episode.link;
+      
+      // autoplay episode on selection
+      document.querySelector('audio').autoplay = true;
     },
 
     // set rssData from localStorage or api call
