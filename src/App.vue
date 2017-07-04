@@ -17,9 +17,9 @@
 
 <script>
 // TODO: create a button that retrieves a random episode
-// TODO: background check rss feed for new data
 
 const moment = require('moment')
+const localforage = require('localforage')
 
 export default {
   data() {
@@ -29,7 +29,7 @@ export default {
         link: '',
         date: ''
       },
-      episodes: null,
+      episodes: [],
       search: '',
     }
   },
@@ -56,23 +56,37 @@ export default {
           return response.json();
         })
         .then(data => {
-          // // format publish date for each episode using moment.js
-          // data.channel.item.forEach(el => {
-          //   el.date = moment(el.pubDate).format('MMMM DD, YYYY');
-          // });
-
-          // // set api response object\
-          // this.episodes = data.channel.item;
-
-          // // set current episode to the latest episode
-          // this.currentEpisode.title = data.channel.item[0].title;
-          // this.currentEpisode.link = data.channel.item[0].link;
-          // this.currentEpisode.date = data.channel.item[0].date;
 
           this.setRssData(data);
 
-          // store api call response in localStorage
-          localStorage['rssData'] = JSON.stringify(data);
+          // store api call response using localForage
+          localforage.setItem('rssData', data)
+            .then(value => {
+              console.log('Successfully stored rss data');
+            })
+            .catch(err => {
+              console.log(err);
+            })
+        })
+    },
+
+    // get a random episode
+    randomEpisode() {
+
+    },
+
+    // retrieve data from local storage or fetch
+    retrieveData() {
+      localforage.getItem('rssData')
+        .then(value => {
+          if (value !== null) {
+            this.setRssData(value);
+          } else {
+            this.fetch();
+          }
+        })
+        .catch(err => {
+          console.log(err);
         })
     },
 
@@ -84,6 +98,7 @@ export default {
 
     // set rssData from localStorage or api call
     setRssData(data) {
+
       // format publish date for each episode using moment.js
       data.channel.item.forEach(el => {
         el.date = moment(el.pubDate).format('MMMM DD, YYYY');
@@ -97,17 +112,40 @@ export default {
       this.currentEpisode.link = data.channel.item[0].link;
       this.currentEpisode.date = data.channel.item[0].date;
     },
+
+    // check for feed updates
+    updateCheck() {
+      const vm = this;
+      setInterval(() => {
+        // this.$http.get('./static/frog.php')
+        this.$http.get('/api/static/frog.php')
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          // check if remote feed length differs from local feed length
+          const feed = data.channel.item.length;
+          const episodes = vm.episodes.length;
+
+          if (feed > episodes) {
+            vm.fetch();
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
+      }, 3600000); // every hour
+    }
+
   },
 
   created() {
+    // retrieve rss data from local storage or api call
+    this.retrieveData();
+    
+    // check for new episodes
+    this.updateCheck();
 
-    // check to see if rssData has previously been stored in localStorage
-    if (localStorage.rssData) {
-      const data = JSON.parse(localStorage.rssData);
-      this.setRssData(data);
-    } else {
-      this.fetch();
-    }
   }
 }
 </script>
