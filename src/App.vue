@@ -2,6 +2,7 @@
   <div id="app">
     <h1>{{ currentEpisode.title }}</h1>
     <p>{{ currentEpisode.date }}</p>
+    <app-player></app-player>
     <audio :src="currentEpisode.link" controls></audio>
     <button @click="randomEpisode">Random</button>
     <input type="text" v-model="search">
@@ -22,6 +23,8 @@
 const moment = require('moment')
 const localforage = require('localforage')
 
+import appPlayer from './components/player'
+
 export default {
   data() {
     return {
@@ -33,6 +36,10 @@ export default {
       episodes: [],
       search: '',
     }
+  },
+
+  components: {
+    appPlayer
   },
 
   computed: {
