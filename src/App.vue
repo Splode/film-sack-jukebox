@@ -39,6 +39,7 @@
 
 const moment = require('moment')
 const localforage = require('localforage')
+import jump from 'jump.js'
 
 import appPlayer from './components/player'
 
@@ -125,6 +126,8 @@ export default {
 
       // autoplay episode on selection
       document.querySelector('audio').autoplay = true;
+
+      jump('#app');
     },
 
     // set rssData from localStorage or api call
