@@ -1,20 +1,37 @@
 <template>
-  <div id="app">
-    <h1>{{ currentEpisode.title }}</h1>
-    <p>{{ currentEpisode.date }}</p>
-    <app-player></app-player>
-    <audio :src="currentEpisode.link" controls></audio>
-    <button @click="randomEpisode">Random</button>
-    <input type="text" v-model="search">
-    <ul>
-      <li v-for="(episode, index) in filteredEpisodes" v-bind:key="index">
-        <button @click="select(episode)">
-          <h4>{{ episode.title }}</h4>
-          <small>{{ episode.date }}</small>
-        </button>
-      </li>
-    </ul>
-  </div>
+  <main id="app" class="container">
+  
+    <section class="row">
+      <h1>Film Sack Jukebox</h1>
+    </section>
+  
+    <section class="row">
+      <h2>{{ currentEpisode.title }}</h2>
+      <p>{{ currentEpisode.date }}</p>
+    </section>
+  
+    <section class="row">
+      <!--<app-player></app-player>-->
+      <audio :src="currentEpisode.link" controls></audio>
+    </section>
+  
+    <section class="row">
+      <button @click="randomEpisode">Random</button>
+      <input type="text" v-model="search">
+    </section>
+  
+    <section class="row">
+      <ul>
+        <li v-for="(episode, index) in filteredEpisodes" v-bind:key="index">
+          <button @click="select(episode)">
+            <h3>{{ episode.title }}</h3>
+            <p>{{ episode.date }}</p>
+          </button>
+        </li>
+      </ul>
+    </section>
+
+  </main>
 </template>
 
 <script>
@@ -105,7 +122,7 @@ export default {
     select(episode) {
       this.currentEpisode.title = episode.title;
       this.currentEpisode.link = episode.link;
-      
+
       // autoplay episode on selection
       document.querySelector('audio').autoplay = true;
     },
@@ -133,21 +150,21 @@ export default {
       setInterval(() => {
         // this.$http.get('./static/frog.php')
         this.$http.get('/api/static/frog.php')
-        .then(response => {
-          return response.json();
-        })
-        .then(data => {
-          // check if remote feed length differs from local feed length
-          const feed = data.channel.item.length;
-          const episodes = vm.episodes.length;
+          .then(response => {
+            return response.json();
+          })
+          .then(data => {
+            // check if remote feed length differs from local feed length
+            const feed = data.channel.item.length;
+            const episodes = vm.episodes.length;
 
-          if (feed > episodes) {
-            vm.fetch();
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        })
+            if (feed > episodes) {
+              vm.fetch();
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          })
       }, 3600000); // every hour
     }
 
@@ -156,7 +173,7 @@ export default {
   created() {
     // retrieve rss data from local storage or api call
     this.retrieveData();
-    
+
     // check for new episodes
     this.updateCheck();
 
@@ -167,14 +184,8 @@ export default {
 <style lang="scss">
 @import "./assets/normalize.css";
 @import "./assets/reset.css";
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+@import "./assets/helper.css";
+@import "./assets/main.scss";
 
 button {
   cursor: pointer;
