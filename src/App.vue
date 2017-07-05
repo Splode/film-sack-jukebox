@@ -1,6 +1,8 @@
 <template>
   <main id="app" class="container">
   
+    <app-loader></app-loader>
+  
     <section class="row">
       <h1>Film Sack Jukebox</h1>
     </section>
@@ -12,12 +14,17 @@
   
     <section class="row">
       <!--<app-player></app-player>-->
-      <audio :src="currentEpisode.link" controls></audio>
+      <audio :src="currentEpisode.link" controls id="default-audio"></audio>
     </section>
   
     <section class="row">
-      <button @click="randomEpisode">Random</button>
-      <input type="text" v-model="search">
+      <button @click="randomEpisode" class="btn-circle">
+        <i class="material-icons">shuffle</i>
+      </button>
+      <div class="search-container">
+        <input type="text" v-model="search" autofocus>
+        <i class="material-icons icon-search">search</i>
+      </div>
     </section>
   
     <section class="row">
@@ -30,7 +37,7 @@
         </li>
       </ul>
     </section>
-
+  
   </main>
 </template>
 
@@ -41,7 +48,8 @@ const moment = require('moment')
 const localforage = require('localforage')
 import jump from 'jump.js'
 
-import appPlayer from './components/player'
+// import appPlayer from './components/player'
+import appLoader from './components/loader'
 
 export default {
   data() {
@@ -57,7 +65,8 @@ export default {
   },
 
   components: {
-    appPlayer
+    // appPlayer,
+    appLoader
   },
 
   computed: {
@@ -125,7 +134,7 @@ export default {
       this.currentEpisode.link = episode.link;
 
       // autoplay episode on selection
-      document.querySelector('audio').autoplay = true;
+      document.querySelector('#default-audio').autoplay = true;
 
       jump('#app');
     },
@@ -196,5 +205,17 @@ button {
 
 ul {
   list-style-type: none;
+}
+
+.icon-search {
+  position: absolute;
+  right: 0;
+  top: -2px;
+}
+
+.search-container {
+  position: relative;
+  margin: 0 auto;
+  width: 400px;
 }
 </style>

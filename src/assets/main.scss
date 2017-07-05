@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Lato|Oswald:300,600');
 
-$hoverTiming: cubic-bezier(0.22, 0.61, 0.36, 1);
+$timingCurve: cubic-bezier(0.22, 0.61, 0.36, 1);
+$backgroundColor: white;
+$secondaryLight: whitesmoke;
+$accentLight: lightgray;
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Oswald', sans-serif;
@@ -23,7 +26,7 @@ button {
   border: 0;
   display: block;
   outline: 0;
-  transition: all .3s $hoverTiming;
+  transition: all .3s $timingCurve;
 }
 
 button p {
@@ -56,13 +59,18 @@ h3 {
 }
 
 input {
+  border: 0;
+  border-bottom: 2px solid lightgray;
+  font-size: 1.25em;
   outline: 0;
+  width: 400px;
 }
 
 li button {
-  background-color: whitesmoke;
+  background-color: $secondaryLight;
   margin: 1em auto;
   padding: 1.5em;
+  width: 400px;
 }
 
 ul li:first-child {
@@ -81,6 +89,16 @@ ul li:first-child {
   width: 100%;
 }
 
+.btn-circle {
+  align-items: center;
+  background: $secondaryLight;
+  border-radius: 100%;
+  display: inline-flex;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+}
+
 // target small mobile
 @media (max-width: 425px) {
   li button {
@@ -91,6 +109,7 @@ ul li:first-child {
 // target above tablet
 @media (min-width: 769px) {
   li button:hover {
-    background-color: lightgray;
+    background-color: $accentLight;
+    width: 460px;
   }
 }
