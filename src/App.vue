@@ -215,7 +215,7 @@ ul {
 
 .search-container {
   position: relative;
-  margin: 0 auto;
+  margin: 2em auto;
   width: 400px;
 }
 </style>

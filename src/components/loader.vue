@@ -29,8 +29,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$c1: gray;
-$c2: lightgray;
+$c1: #2196F3;
+$c2: whitesmoke;
 
 @mixin lm {
   position: relative;
