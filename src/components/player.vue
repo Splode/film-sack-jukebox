@@ -13,7 +13,7 @@
       <i class="material-icons">file_download</i>
     </button>
   
-    <input type="range" min="0" :max="slider.max" v-model.number="slider.current">
+    <input type="range" min="0" :max="slider.max" v-model.number="slider.current" v-on:change="seek">
   
   </div>
 </template>
@@ -26,25 +26,38 @@ export default {
         current: 0,
         max: 300,
         range: 0,
-      }
+      },
     }
   },
 
   methods: {
+
     pause() {
       document.querySelector('#player').pause();
     },
+
     play() {
       document.querySelector('#player').play();
-      // track current position in player
-      this.trackTime();
+      // this.updateSlider();
     },
-    trackTime() {
-      const vm = this;
-      setInterval(() => {
-        vm.slider.current = document.querySelector('#player').currentTime;
-      }, 500)
-    }
+
+    // update audio position based on slider
+    seek() {
+      document.querySelector('#player').currentTime = this.slider.current;
+      console.log(document.querySelector('#player').currentTime)
+    },
+
+    // update slider position based on audio playback
+    updateSlider() {
+      document.querySelector('#player').addEventListener('timeupdate', () => {
+        this.slider.current = document.querySelector('#player').currentTime;
+        console.log('updated');
+      })
+    },
+  },
+
+  mounted() {
+    this.updateSlider();
   }
 }
 </script>
@@ -63,19 +76,11 @@ input[type=range]:focus {
   outline: none;
 }
 
-input[type=range]::after {
-  background-color: purple;
-  content: '';
-  position: absolute;
-  width: 23%;
-  height: 3px;
-}
-
 input[type=range]::-webkit-slider-runnable-track {
   width: 100%;
-  height: 3px;
+  height: 2px;
   cursor: pointer;
-  animate: 0.2s;
+  // animate: 0.2s;
   background: lightgray;
   border-radius: 1.3px;
 }
@@ -86,7 +91,7 @@ input[type=range]::-webkit-slider-thumb {
   border-radius: 100%;
   background: gray;
   cursor: pointer;
-  transition: all .3s $timingCurve;
+  transition: all .3s cubic-bezier(0.22, 0.61, 0.36, 1);
   -webkit-appearance: none;
   margin-top: -9px;
 }
@@ -101,7 +106,7 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 
 input[type=range]::-moz-range-track {
   width: 100%;
-  height: 8.4px;
+  height: 2px;
   cursor: pointer;
   animate: 0.2s;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
@@ -122,7 +127,7 @@ input[type=range]::-moz-range-thumb {
 
 input[type=range]::-ms-track {
   width: 100%;
-  height: 8.4px;
+  height: 2px;
   cursor: pointer;
   animate: 0.2s;
   background: transparent;

@@ -13,7 +13,7 @@
     </section>
   
     <section class="row">
-      <!--<app-player></app-player>-->
+      <app-player></app-player>
       <audio :src="currentEpisode.link" controls id="default-audio"></audio>
     </section>
   
@@ -48,7 +48,7 @@ const moment = require('moment')
 const localforage = require('localforage')
 import jump from 'jump.js'
 
-// import appPlayer from './components/player'
+import appPlayer from './components/player'
 import appLoader from './components/loader'
 
 export default {
@@ -65,7 +65,7 @@ export default {
   },
 
   components: {
-    // appPlayer,
+    appPlayer,
     appLoader
   },
 
