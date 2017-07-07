@@ -29,8 +29,8 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://localhost:8888/film-sack-jukebox/',
-        // target: 'http://localhost/film-sack-jukebox/',
+        // target: 'http://localhost:8888/film-sack-jukebox/',
+        target: 'http://localhost/film-sack-jukebox/',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''
