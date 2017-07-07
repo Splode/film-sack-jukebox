@@ -1,36 +1,96 @@
 <template>
   <div>
-    <audio id="player" src="http://feeds.soundcloud.com/stream/322664743-scott-johnson-27-filmsack-mka.mp3"></audio>
+  
+    <section class="row">
+      <button class="btn-circle" @click="play">
+        <i class="material-icons">play_arrow</i>
+      </button>
+      <button class="btn-circle" @click="pause">
+        <i class="material-icons">pause</i>
+      </button>
+  
+      <button @click="randomEpisode" class="btn-circle">
+        <i class="material-icons">shuffle</i>
+      </button>
+  
+      <button class="btn-circle">
+        <i class="material-icons">file_download</i>
+      </button>
+    </section>
+  
+    <audio id="player" :src="currentEpisode.link"></audio>
+  
+    <div class="slider-container">
+      <input type="range" min="0" :max="player.duration" v-model.number="slider.current" v-on:change="seek" @mousedown="pause" @mouseup="play">
+      <div class="slider-bar" :style="{ width: slider.barWidth + '%' }"></div>
+    </div>
+  
+    
+    <section class="row">
+      <p>{{ prettyCurrent }} / {{ player.prettyDuration }}</p>
 
-    <button class="btn-circle" @click="play">
-      <i class="material-icons">play_arrow</i>
-    </button>
-    <button class="btn-circle" @click="pause">
-      <i class="material-icons">pause</i>
-    </button>
-  
-    <button class="btn-circle">
-      <i class="material-icons">file_download</i>
-    </button>
-  
-    <input type="range" min="0" :max="slider.max" v-model.number="slider.current" v-on:change="seek">
+      <!--<p>{{ prettyCurrent }}</p>
+      <p>{{ player.prettyDuration }}</p>-->
+    </section>
   
   </div>
 </template>
 
 <script>
+const moment = require('moment')
+
 export default {
   data() {
     return {
+      player: {
+        autoplay: null,
+        currentTime: null,
+        duration: null,
+        paused: null,
+        readyState: null,
+        volume: null
+      },
       slider: {
         current: 0,
-        max: 300,
+        max: 0,
         range: 0,
+        barWidth: 0,
       },
     }
   },
 
+  computed: {
+
+    currentEpisode() {
+      return this.$store.getters.currentEpisode;
+    },
+
+    episodes() {
+      return this.$store.getters.filteredEpisodes;
+    },
+
+    prettyCurrent() {
+      return this.prettyTime(this.slider.current);
+    },
+
+  },
+
   methods: {
+
+    createPlayerObj() {
+      const audio = document.querySelector('#player');
+      audio.addEventListener('loadeddata', () => {
+        this.player = {
+          autoplay: audio.autoplay,
+          currentTime: audio.currentTime,
+          duration: audio.duration,
+          paused: audio.paused,
+          prettyDuration: this.prettyTime(audio.duration),
+          readyState: audio.readyState,
+          volume: audio.volume,
+        }
+      });
+    },
 
     pause() {
       document.querySelector('#player').pause();
@@ -39,6 +99,23 @@ export default {
     play() {
       document.querySelector('#player').play();
       // this.updateSlider();
+    },
+
+    prettyTime(time) {
+      const duration = moment.duration(time, 'seconds');
+      const hour = duration.get('hours');
+      const minutes = duration.get('minutes');
+      const seconds = duration.get('seconds');
+
+      return `${hour}:${minutes}:${seconds}`;
+    },
+
+    randomEpisode() {
+      const length = this.episodes.length;
+      const rand = Math.floor(Math.random() * (length - 0 + 1)) + 0;
+      const episode = this.episodes[rand];
+
+      this.$store.dispatch('select', episode);
     },
 
     // update audio position based on slider
@@ -51,22 +128,40 @@ export default {
     updateSlider() {
       document.querySelector('#player').addEventListener('timeupdate', () => {
         this.slider.current = document.querySelector('#player').currentTime;
-        console.log('updated');
+
+        this.slider.barWidth = (document.querySelector('#player').currentTime) / (this.player.duration) * 100;
+
       })
     },
   },
 
   mounted() {
+    // call slider update
     this.updateSlider();
-  }
+
+    // load audio player attributes on change
+    this.createPlayerObj();
+  },
 }
 </script>
 
 <style lang="scss">
 @import "./../assets/main.scss";
 
+.slider-bar {
+  background: $primeColor;
+  position: absolute;
+  top: calc(50% + 4px);
+  height: 2px;
+}
+
+.slider-container {
+  margin: 0 auto;
+  position: relative;
+  width: 96%;
+}
+
 input[type=range] {
-  margin: 18px 0;
   position: relative;
   width: 100%;
   -webkit-appearance: none;
@@ -79,25 +174,27 @@ input[type=range]:focus {
 input[type=range]::-webkit-slider-runnable-track {
   width: 100%;
   height: 2px;
-  cursor: pointer;
-  // animate: 0.2s;
+  cursor: pointer; // animate: 0.2s;
   background: lightgray;
   border-radius: 1.3px;
 }
 
 input[type=range]::-webkit-slider-thumb {
+  @include box-shadow($lightColorDark);
+  @include transition();
+
   height: 20px;
   width: 20px;
   border-radius: 100%;
-  background: gray;
-  cursor: pointer;
-  transition: all .3s cubic-bezier(0.22, 0.61, 0.36, 1);
+  background: $primeColor;
+  cursor: pointer; // transition: all .3s cubic-bezier(0.22, 0.61, 0.36, 1);
   -webkit-appearance: none;
   margin-top: -9px;
+  z-index: 999;
 }
 
 input[type=range]:hover::-webkit-slider-thumb {
-  background: sandybrown;
+  transform: scale3d(1.25, 1.25, 1);
 }
 
 input[type=range]:focus::-webkit-slider-runnable-track {

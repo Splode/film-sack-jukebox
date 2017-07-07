@@ -3,8 +3,9 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
 import App from './App'
+import { store } from './store/store'
 
-Vue.use(VueResource);
+Vue.use(VueResource)
 
 Vue.config.productionTip = false
 
@@ -12,5 +13,6 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   template: '<App/>',
-  components: { App }
+  components: { App },
+  store
 })
