@@ -1,43 +1,62 @@
 <template>
   <main id="app" class="container">
   
-    <app-loader></app-loader>
+    <transition name="fade" mode="out-in">
+      <app-worm-loader v-if="!running"></app-worm-loader>
   
-    <section class="row">
-      <h1>Film Sack Jukebox</h1>
-    </section>
+      <div v-else>
+        <header class="row">
+          <h1>Film Sack Jukebox</h1>
+        </header>
   
-    <section class="row">
-      <h2>{{ currentEpisode.title }}</h2>
-      <p>{{ currentEpisode.date }}</p>
-    </section>
+        <section class="row">
+          <h2>{{ currentEpisode.title }}</h2>
+          <p>{{ currentEpisode.date }}</p>
+        </section>
   
-    <section class="row">
-      <app-player></app-player>
-      <!--<audio :src="currentEpisode.link" controls id="default-audio"></audio>-->
-    </section>
+        <section class="row">
+          <app-player></app-player>
+          <!--<audio :src="currentEpisode.link" controls id="default-audio"></audio>-->
+        </section>
   
-    <!--<button @click="randomEpisode" class="btn-circle">
-      <i class="material-icons">shuffle</i>
-    </button>-->
+        <!--<button @click="randomEpisode" class="btn-circle">
+                      <i class="material-icons">shuffle</i>
+                    </button>-->
   
-    <section class="row">
-      <div class="search-container">
-        <input type="text" @input="search" autofocus>
-        <i class="material-icons icon-search">search</i>
-      </div>
-    </section>
-  
-    <section class="row">
-      <ul>
-        <li v-for="(episode, index) in episodes" v-bind:key="index">
-          <button @click="select(episode)">
-            <h3>{{ episode.title }}</h3>
-            <p>{{ episode.date }}</p>
+        <section class="row">
+          <button class="btn-circle" @click="toggleDrawer">
+            <transition name="fade" mode="out-in">
+              <i class="material-icons" v-if="!drawerOpen">expand_more</i>
+              <i class="material-icons" v-else>expand_less</i>
+            </transition>
           </button>
-        </li>
-      </ul>
-    </section>
+        </section>
+  
+        <transition name="fade">
+          <div v-if="drawerOpen">
+            <section class="row">
+              <div class="search-container">
+                <input type="text" @input="search">
+                <i class="material-icons icon-search">search</i>
+              </div>
+            </section>
+  
+            <section class="row">
+              <ul>
+                <li v-for="(episode, index) in episodes" v-bind:key="index">
+                  <button @click="select(episode)">
+                    <h3>{{ episode.title }}</h3>
+                    <p>{{ episode.date }}</p>
+                  </button>
+                </li>
+              </ul>
+            </section>
+          </div>
+        </transition>
+  
+      </div>
+  
+    </transition>
   
   </main>
 </template>
@@ -51,12 +70,14 @@ import jump from 'jump.js'
 
 import appPlayer from './components/player'
 import appLoader from './components/loader'
+import appWormLoader from './components/worm-loader'
 
 export default {
 
   components: {
     appPlayer,
-    appLoader
+    appLoader,
+    appWormLoader
   },
 
   computed: {
@@ -71,8 +92,16 @@ export default {
       return this.$store.getters.currentEpisode;
     },
 
+    drawerOpen() {
+      return this.$store.state.drawerOpen;
+    },
+
     episodes() {
       return this.$store.getters.filteredEpisodes;
+    },
+
+    running() {
+      return this.$store.state.running;
     }
 
   },
@@ -132,6 +161,7 @@ export default {
       // this.currentEpisode.link = episode.link;
 
       this.$store.dispatch('select', episode);
+      this.toggleDrawer();
 
       // autoplay episode on selection
       // document.querySelector('#player').autoplay = true;
@@ -182,6 +212,10 @@ export default {
 
     search(e) {
       this.$store.dispatch('search', e.target.value);
+    },
+
+    toggleDrawer() {
+      this.$store.dispatch('toggleDrawer');
     }
 
   },
@@ -207,7 +241,6 @@ export default {
 <style lang="scss">
 @import "./assets/normalize.css";
 @import "./assets/reset.css";
-@import "./assets/helper.css";
 @import "./assets/main.scss";
 
 button {

@@ -24,7 +24,7 @@
 
 <script>
 export default {
-
+  
 }
 </script>
 
@@ -51,6 +51,7 @@ $c2: whitesmoke;
 @mixin ld {
   height: 100%;
 }
+
 * {
   box-sizing: border-box;
 }
@@ -81,29 +82,29 @@ div:hover {
 }
 
 @keyframes rotate {
-    0% {
-        transform: rotate(0deg);      
-    }
-    50% {
-        transform: rotate(180deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes rotate2 {
-    0% {
-        transform: rotate(0deg);
-        border-top-color: $c1;
-    }
-    50% {
-        transform: rotate(180deg);
-        border-top-color: $c2;
-    }
-    100% {
-        transform: rotate(360deg);
-        border-top-color: $c1;
-    }
+  0% {
+    transform: rotate(0deg);
+    border-top-color: $c1;
+  }
+  50% {
+    transform: rotate(180deg);
+    border-top-color: $c2;
+  }
+  100% {
+    transform: rotate(360deg);
+    border-top-color: $c1;
+  }
 }
 </style>

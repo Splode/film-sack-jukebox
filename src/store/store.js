@@ -14,9 +14,10 @@ export const store = new Vuex.Store({
       link: '',
       title: ''
     },
+    drawerOpen: false,
     episodes: [],
-    loader: true,
-    query: ''
+    query: '',
+    running: false,
   },
 
   actions: {
@@ -69,6 +70,10 @@ export const store = new Vuex.Store({
 
       // autoplay episode on selection
       document.querySelector('#player').autoplay = true;
+    },
+
+    toggleDrawer(context) {
+      context.commit('toggleDrawer');
     },
 
     // check for feed updates
@@ -141,6 +146,12 @@ export const store = new Vuex.Store({
       state.currentEpisode.title = data.channel.item[0].title;
       state.currentEpisode.link = data.channel.item[0].link;
       state.currentEpisode.date = data.channel.item[0].date;
+     
+      state.running = true;
+    },
+
+    toggleDrawer(state) {
+      state.drawerOpen = !state.drawerOpen;
     },
 
   },

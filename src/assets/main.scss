@@ -1,12 +1,20 @@
 // @import url('https://fonts.googleapis.com/css?family=Lato|Oswald:300,600');
 @import url('https://fonts.googleapis.com/css?family=Monoton|Zilla+Slab:400');
 
-$backgroundColor: white;
-$primeColor: #2196F3;
-$secondColor: #424242;
-$secondColorLight: #757575;
-$lightColor: whitesmoke;
-$lightColorDark: lightgray;
+// $backgroundColor: white;
+// $primeColor: #2196F3;
+// $secondColor: #424242;
+// $secondColorLight: #757575;
+// $lightColor: whitesmoke;
+// $lightColorDark: lightgray;
+
+$backgroundColor: #171523;
+$backgroundColorLight: dimgray;
+$primeColor: #DDA01E;
+$secondColor: #B61F3E;
+$secondColorLight: royalblue;
+$lightColor: #3A3849;
+$lightColorDark: #242230;
 
 @mixin box-shadow($color) {
   box-shadow: 0 0 10px $color;
@@ -14,6 +22,10 @@ $lightColorDark: lightgray;
 
 @mixin transition() {
   transition: all .3s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+[v-cloak] {
+  display: none;
 }
 
 body, input, button, caption, small, p, h2, h3, h4, h5, h6 {
@@ -27,7 +39,8 @@ audio {
 }
 
 body {
-  color: $secondColorLight;
+  background: $backgroundColor;
+  color: $backgroundColorLight;
   text-align: center;
 }
 
@@ -59,36 +72,55 @@ h2 {
 
 // episode date
 h2 + p {
-  color: $secondColorLight;
   margin: 1em 0;
   text-transform: uppercase;
 }
 
 // episode card title
 h3 {
-  font-size: 1.25em;
+  // color: $backgroundColor;
+  font-size: 1.33em;
   margin-bottom: 1em;
 }
 
+// episode card date
 h3 + p {
   @include transition();
-  color: $secondColorLight;
+  color: dimgray;
 }
 
 input[type=text] {
+  @include transition();
+
+  background: transparent;
   border: 0;
-  border-bottom: 2px solid lightgray;
+  border-bottom: 2px solid $lightColor;
   border-radius: 0;
-  color: $primeColor;
+  color: $lightColor;
   font-size: 1.25em;
   outline: 0;
+  position: relative;
   width: 400px;
+
+  & + i {
+    color: $lightColor;
+  }
+
+  &:focus {
+    border-bottom: 2px solid $secondColor;
+    color: $secondColor;
+  
+    &:focus + i {
+      color: $secondColor;
+    }
+  }
 }
 
 li button {
   @include box-shadow($lightColorDark);
 
-  background-color: $lightColor;
+  background-color: $lightColorDark;
+  color: $secondColorLight;
   margin: 1em auto;
   padding: 1.5em;
   width: 500px;
@@ -106,20 +138,41 @@ ul li:first-child {
   max-width: 960px;
 }
 
+// Open drawer
+.open {
+    animation: open 1s ease forwards;
+}
+
+// Close drawer
+.close {
+    animation: close 1s ease forwards;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+   @include transition();
+}
+
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+}
+
 .row {
   width: 100%;
 }
 
 .btn-circle {
-  @include box-shadow($lightColorDark);
+  @include box-shadow($primeColor);
   @include transition();
 
   align-items: center;
-  background: $lightColor;
+  background: $lightColorDark;
   border-radius: 100%;
+  color: $primeColor;
   display: inline-flex;
   justify-content: center;
-  margin: 1em 0;
+  margin: 2em;
   width: 45px;
   height: 45px;
 }
@@ -138,11 +191,11 @@ ul li:first-child {
     @include box-shadow($primeColor);
 
     background-color: $primeColor;
-    color: $lightColor;
+    color: $backgroundColor;
     width: 560px;
 
     & p {
-      color: $lightColor;
+      color: $backgroundColor;
     }
   }
 
@@ -150,6 +203,37 @@ ul li:first-child {
     @include box-shadow($primeColor);
 
     background: $primeColor;
-    color: $lightColor;
+    color: $backgroundColor;
   }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes open {
+    from {
+        max-height: 0;
+        opacity: 0;
+    }
+    to {
+        max-height: 100%;
+        opacity: 1;
+    }
+}
+
+@keyframes close {
+    from {
+        max-height: 100%;
+        opacity: 1;
+    }
+    to {
+        max-height: 0;
+        opacity: 0;
+    }
 }
