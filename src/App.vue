@@ -2,9 +2,9 @@
   <main id="app" class="container">
   
     <transition name="fade" mode="out-in">
-      <app-worm-loader v-if="!running"></app-worm-loader>
   
-      <div v-else>
+      <div v-if="running">
+  
         <header class="row">
           <h1>Film Sack Jukebox</h1>
         </header>
@@ -16,14 +16,9 @@
   
         <section class="row">
           <app-player></app-player>
-          <!--<audio :src="currentEpisode.link" controls id="default-audio"></audio>-->
         </section>
   
-        <!--<button @click="randomEpisode" class="btn-circle">
-                      <i class="material-icons">shuffle</i>
-                    </button>-->
-  
-        <section class="row">
+        <section class="row d-flex justify-content-end">
           <button class="btn-circle" @click="toggleDrawer">
             <transition name="fade" mode="out-in">
               <i class="material-icons" v-if="!drawerOpen">expand_more</i>
@@ -55,6 +50,8 @@
         </transition>
   
       </div>
+  
+      <app-worm-loader v-else></app-worm-loader>
   
     </transition>
   
@@ -241,6 +238,7 @@ export default {
 <style lang="scss">
 @import "./assets/normalize.css";
 @import "./assets/reset.css";
+@import "./assets/helper.scss";
 @import "./assets/main.scss";
 
 button {

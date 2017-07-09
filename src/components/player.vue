@@ -2,12 +2,12 @@
   <div>
   
     <!--audio controls-->
-    <section class="row">
-      
+    <section class="row d-flex justify-content-around">
+  
       <button @click="seek(15)" class="btn-circle">
         <i class="material-icons">replay_10</i>
       </button>
-
+  
       <!--play / pause-->
       <transition-group name="fade" mode="out-in">
         <button class="btn-circle" @click="play" v-if="player.paused" :key="play">
@@ -17,7 +17,7 @@
           <i class="material-icons">pause</i>
         </button>
       </transition-group>
-
+  
       <button @click="seek(30)" class="btn-circle">
         <i class="material-icons">forward_30</i>
       </button>
@@ -27,8 +27,8 @@
       </button>
   
       <!--<button class="btn-circle">
-          <i class="material-icons">file_download</i>
-        </button>-->
+                  <i class="material-icons">file_download</i>
+                </button>-->
     </section>
   
     <audio id="player" :src="currentEpisode.link"></audio>
@@ -39,11 +39,16 @@
       <div class="slider-bar" :style="{ width: slider.barWidth + '%' }"></div>
     </div>
   
-    <section class="row">
-      <p v-cloak>{{ prettyCurrent }} / {{ player.prettyDuration }}</p>
-  
-      <!--<p>{{ prettyCurrent }}</p>
-        <p>{{ player.prettyDuration }}</p>-->
+    <section class="row my-1">
+      <transition name="fade" mode="out-in">
+        <div v-if="player.readyState < 4">
+          <p>Loading...</p>
+        </div>
+        <div v-else-if="player.readyState === 4" class="d-flex justify-content-around">
+          <p>{{ prettyCurrent }}</p>
+          <p>{{ player.prettyDuration }}</p>
+        </div>
+      </transition>
     </section>
   
   </div>
@@ -65,8 +70,8 @@ export default {
       },
       slider: {
         current: 0,
-        max: 0,
-        range: 0,
+        // max: 0,
+        // range: 0,
         barWidth: 0,
       },
     }
@@ -103,6 +108,15 @@ export default {
           readyState: audio.readyState,
           volume: audio.volume,
         }
+
+        if (audio.readyState === 4) {
+          console.log('audio ready');
+        }
+
+      });
+
+      audio.addEventListener('abort', () => {
+        this.player.readyState = audio.readyState;
       });
     },
 

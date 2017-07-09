@@ -1,5 +1,5 @@
-// @import url('https://fonts.googleapis.com/css?family=Lato|Oswald:300,600');
 @import url('https://fonts.googleapis.com/css?family=Monoton|Zilla+Slab:400');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700');
 
 // $backgroundColor: white;
 // $primeColor: #2196F3;
@@ -12,7 +12,7 @@ $backgroundColor: #171523;
 $backgroundColorLight: dimgray;
 $primeColor: #DDA01E;
 $secondColor: #B61F3E;
-$secondColorLight: royalblue;
+$secondColorLight: beige;
 $lightColor: #3A3849;
 $lightColorDark: #242230;
 
@@ -51,9 +51,9 @@ button {
   outline: 0;
 }
 
-button p {
-  text-transform: uppercase;
-}
+// button p {
+//   text-transform: uppercase;
+// }
 
 h1 {
   color: $primeColor;
@@ -79,15 +79,18 @@ h2 + p {
 // episode card title
 h3 {
   // color: $backgroundColor;
+  font-family: 'Roboto', sans-serif;
   font-size: 1.33em;
+  font-weight: 500;
+  letter-spacing: inherit;
   margin-bottom: 1em;
 }
 
 // episode card date
-h3 + p {
-  @include transition();
-  color: dimgray;
-}
+// h3 + p {
+//   @include transition();
+//   color: $lightColor;
+// }
 
 input[type=text] {
   @include transition();
@@ -117,10 +120,10 @@ input[type=text] {
 }
 
 li button {
-  @include box-shadow($lightColorDark);
+  @include box-shadow($primeColor);
 
-  background-color: $lightColorDark;
-  color: $secondColorLight;
+  background-color: $primeColor;
+  color: $backgroundColor;
   margin: 1em auto;
   padding: 1.5em;
   width: 500px;
@@ -175,6 +178,13 @@ ul li:first-child {
   margin: 2em;
   width: 45px;
   height: 45px;
+
+  &:active {
+    @include box-shadow($primeColor);
+
+    background: $primeColor;
+    color: $backgroundColor;
+  }
 }
 
 // target small mobile
@@ -188,14 +198,14 @@ ul li:first-child {
 @media (min-width: 769px) {
 
   li button:hover {
-    @include box-shadow($primeColor);
+    @include box-shadow($secondColor);
 
-    background-color: $primeColor;
-    color: $backgroundColor;
+    background-color: $secondColor;
+    color: $secondColorLight;
     width: 560px;
 
     & p {
-      color: $backgroundColor;
+      color: $secondColorLight;
     }
   }
 
