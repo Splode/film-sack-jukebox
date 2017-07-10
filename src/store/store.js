@@ -22,12 +22,36 @@ export const store = new Vuex.Store({
 
   actions: {
 
+    checkFeed(context) {
+      const $context = context;
+      // Vue.http.get('./static/frog.php')
+      Vue.http.get('/api/static/frog.php')
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          // check if remote feed length differs from local feed length
+          const feed = data.channel.item.length;
+          const episodes = $context.state.episodes.length;
+
+          console.log('Updated Feed')
+
+          if (feed > episodes) {
+            $context.commit('fetch');
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
+
+    },
+
     // fetch rss data using local php script and handle response, set localStorage
     fetch(context) {
       // production => path needs to be set to directory relative during build if not on root
       // dev => path proxied for apache server
-      Vue.http.get('./static/frog.php')
-      // Vue.http.get('/api/static/frog.php')
+      // Vue.http.get('./static/frog.php')
+      Vue.http.get('/api/static/frog.php')
         .then(response => {
           return response.json();
         })
@@ -70,6 +94,7 @@ export const store = new Vuex.Store({
 
       // autoplay episode on selection
       document.querySelector('#player').autoplay = true;
+      
     },
 
     toggleDrawer(context) {
@@ -78,29 +103,39 @@ export const store = new Vuex.Store({
 
     // check for feed updates
     updateCheck(context) {
-      const $vue = Vue;
-      const $context = context;
+      // const $vue = Vue;
+      // const $context = context;
+      // setInterval(this.checkFeed, 8000);
+      // setInterval(() => {
+      //   // Vue.http.get('./static/frog.php')
+      //   $vue.http.get('/api/static/frog.php')
+      //     .then(response => {
+      //       return response.json();
+      //     })
+      //     .then(data => {
+      //       // check if remote feed length differs from local feed length
+      //       const feed = data.channel.item.length;
+      //       const episodes = $context.state.episodes.length;
+
+      //       console.log('Updated Feed')
+
+      //       if (feed > episodes) {
+      //         $context.commit('fetch');
+      //       }
+      //     })
+      //     .catch(err => {
+      //       console.log(err);
+      //     })
+      // }, 3600000); // every hour
+      // const vm = this;
+      
+      // call feed update immediately upon load
+      context.dispatch('checkFeed');
+
+      // call update every hour subsequently
       setInterval(() => {
-        Vue.http.get('./static/frog.php')
-        // $vue.http.get('/api/static/frog.php')
-          .then(response => {
-            return response.json();
-          })
-          .then(data => {
-            // check if remote feed length differs from local feed length
-            const feed = data.channel.item.length;
-            const episodes = $context.state.episodes.length;
-
-            console.log('Updated Feed')
-
-            if (feed > episodes) {
-              $context.commit('fetch');
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          })
-      }, 3600000); // every hour
+        context.dispatch('checkFeed');
+      }, 3600000)
     },
 
   },
@@ -146,7 +181,7 @@ export const store = new Vuex.Store({
       state.currentEpisode.title = data.channel.item[0].title;
       state.currentEpisode.link = data.channel.item[0].link;
       state.currentEpisode.date = data.channel.item[0].date;
-     
+
       state.running = true;
     },
 

@@ -4,13 +4,13 @@
     <!--audio controls-->
     <section class="row d-flex justify-content-around">
   
-      <button @click="seek(15)" class="btn-circle">
+      <button @click="seek(10)" class="btn-circle" title="Rewind 10 seconds">
         <i class="material-icons">replay_10</i>
       </button>
   
       <!--play / pause-->
       <transition-group name="fade" mode="out-in">
-        <button class="btn-circle" @click="play" v-if="player.paused" :key="play">
+        <button class="btn-circle" @click="play" v-if="player.paused || player.paused === null" :key="play">
           <i class="material-icons">play_arrow</i>
         </button>
         <button class="btn-circle" @click="pause" v-else :key="pause">
@@ -18,38 +18,49 @@
         </button>
       </transition-group>
   
-      <button @click="seek(30)" class="btn-circle">
+      <button @click="seek(30)" class="btn-circle" title="Advance 30 seconds">
         <i class="material-icons">forward_30</i>
       </button>
   
-      <button @click="randomEpisode" class="btn-circle">
+      <button @click="randomEpisode" class="btn-circle" title="Random episode">
         <i class="material-icons">shuffle</i>
       </button>
   
       <!--<button class="btn-circle">
-                  <i class="material-icons">file_download</i>
-                </button>-->
+                      <i class="material-icons">file_download</i>
+                    </button>-->
     </section>
   
     <audio id="player" :src="currentEpisode.link"></audio>
   
     <div class="slider-container">
-      <input type="range" min="0" :max="player.duration" v-model.number="slider.current" @mousedown="pause" @mouseup="handler(scrub, play)">
+      <input type="range" min="0" :max="player.duration" v-model.number="slider.current" @mousedown="pause" @mouseup="handler(scrub, play)" @touchstart="pause" @touchend="handler(scrub, play)">
       <!--<input type="range" min="0" :max="player.duration" v-model.number="slider.current" v-on:change="scrub" @mousedown="pause" @mouseup="play">-->
       <div class="slider-bar" :style="{ width: slider.barWidth + '%' }"></div>
     </div>
   
     <section class="row my-1">
       <transition name="fade" mode="out-in">
-        <div v-if="player.readyState < 4">
-          <p>Loading...</p>
+        <div v-if="player.readyState < 2">
+          <p :class="{ hidden: player.readyState === null }">Loading...</p>
         </div>
-        <div v-else-if="player.readyState === 4" class="d-flex justify-content-around">
+        <div v-else-if="player.readyState >= 2 || !player.paused" class="d-flex justify-content-around">
           <p>{{ prettyCurrent }}</p>
           <p>{{ player.prettyDuration }}</p>
         </div>
       </transition>
     </section>
+  
+    <!--debugging audio on iOS-->
+    <!--<section class="row">
+          <p v-cloak>{{ prettyCurrent }} / {{ player.prettyDuration }}</p>
+          <p>player: {{ player }}</p>
+          <p>autoplay: {{ player.autoplay }}</p>
+          <p>currentTime: {{ player.currentTime }}</p>
+          <p>duration: {{ player.duration }}</p>
+          <p>paused: {{ player.paused }}</p>
+          <p>readyState: {{ player.readyState }}</p>
+        </section>-->
   
   </div>
 </template>
@@ -109,12 +120,9 @@ export default {
           volume: audio.volume,
         }
 
-        if (audio.readyState === 4) {
-          console.log('audio ready');
-        }
-
       });
 
+      // reset audio readyState on episode change
       audio.addEventListener('abort', () => {
         this.player.readyState = audio.readyState;
       });
@@ -184,6 +192,8 @@ export default {
 
         this.slider.barWidth = (audio.currentTime) / (this.player.duration) * 100;
 
+        this.player.paused = audio.paused;
+
       })
     },
   },
@@ -199,6 +209,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "./../assets/helper.scss";
 @import "./../assets/main.scss";
 
 .slider-bar {
@@ -240,7 +251,7 @@ input[type=range]::-webkit-slider-thumb {
   width: 20px;
   border-radius: 100%;
   background: $primeColor;
-  cursor: pointer; // transition: all .3s cubic-bezier(0.22, 0.61, 0.36, 1);
+  cursor: pointer;
   -webkit-appearance: none;
   margin-top: -9px;
   z-index: 999;
@@ -255,25 +266,40 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   background: $lightColor;
 }
 
+// Mozilla style rules
+_:-moz-tree-row(hover),
+input[type=range] {
+  position: absolute;
+  left: 0;
+  top: -4.5px;
+  width: 100%;
+}
+
 input[type=range]::-moz-range-track {
   width: 100%;
   height: 2px;
-  cursor: pointer;
-  animate: 0.2s;
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  background: #3071a9;
+  cursor: pointer; // animate: 0.2s;
+  background: $lightColor;
   border-radius: 1.3px;
-  border: 0.2px solid #010101;
 }
 
 input[type=range]::-moz-range-thumb {
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  border: 1px solid #000000;
-  height: 36px;
-  width: 16px;
-  border-radius: 3px;
-  background: #ffffff;
+  @include box-shadow($lightColorDark);
+  @include transition();
+
+  height: 20px;
+  width: 20px;
+  border-radius: 100%;
+  background: $primeColor;
   cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -9px;
+  z-index: 999;
+}
+
+input[type=range]:hover::-moz-range-thumb {
+  @include box-shadow($primeColor);
+  transform: scale3d(1.25, 1.25, 1);
 }
 
 input[type=range]::-ms-track {

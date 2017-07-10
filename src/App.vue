@@ -1,59 +1,68 @@
 <template>
-  <main id="app" class="container">
+  <main id="app">
   
-    <transition name="fade" mode="out-in">
+    <div class="container">
   
-      <div v-if="running">
+      <transition name="fade" mode="out-in">
   
-        <header class="row">
-          <h1>Film Sack Jukebox</h1>
-        </header>
+        <div v-if="running">
   
-        <section class="row">
-          <h2>{{ currentEpisode.title }}</h2>
-          <p>{{ currentEpisode.date }}</p>
-        </section>
+          <header class="row">
+            <h1>Film Sack Jukebox</h1>
+          </header>
   
-        <section class="row">
-          <app-player></app-player>
-        </section>
+          <section class="row mb-2">
+            <h2>{{ currentEpisode.title }}</h2>
+            <p>{{ currentEpisode.date }}</p>
+          </section>
   
-        <section class="row d-flex justify-content-end">
-          <button class="btn-circle" @click="toggleDrawer">
-            <transition name="fade" mode="out-in">
-              <i class="material-icons" v-if="!drawerOpen">expand_more</i>
-              <i class="material-icons" v-else>expand_less</i>
-            </transition>
-          </button>
-        </section>
+          <section class="row">
+            <app-player></app-player>
+          </section>
   
-        <transition name="fade">
-          <div v-if="drawerOpen">
-            <section class="row">
-              <div class="search-container">
-                <input type="text" @input="search">
-                <i class="material-icons icon-search">search</i>
-              </div>
-            </section>
+          <a id="drawer"></a>
   
-            <section class="row">
-              <ul>
-                <li v-for="(episode, index) in episodes" v-bind:key="index">
-                  <button @click="select(episode)">
-                    <h3>{{ episode.title }}</h3>
-                    <p>{{ episode.date }}</p>
-                  </button>
-                </li>
-              </ul>
-            </section>
-          </div>
-        </transition>
+          <section class="row d-flex justify-content-end">
+            <button class="btn-circle" @click="toggleDrawer" title="Toggle all episodes">
+              <transition name="fade" mode="out-in">
+                <i class="material-icons" v-if="!drawerOpen">expand_more</i>
+                <i class="material-icons" v-else>expand_less</i>
+              </transition>
+            </button>
+          </section>
   
-      </div>
+          <transition name="fade">
+            <div v-if="drawerOpen">
+              <section class="row">
+                <div class="search-container">
+                  <input type="text" @input="search" v-model="query">
+                  <transition name="fade" mode="out-in">
+                    <i class="material-icons icon-search" v-if="query === ''">search</i>
+                    <i class="material-icons icon-search icon-close" v-else @click="searchClose('')">close</i>
+                  </transition>
+                </div>
+              </section>
   
-      <app-worm-loader v-else></app-worm-loader>
+              <section class="row">
+                <ul>
+                  <li v-for="(episode, index) in episodes" v-bind:key="index">
+                    <button @click="select(episode)">
+                      <h3>{{ episode.title }}</h3>
+                      <p>{{ episode.date }}</p>
+                    </button>
+                  </li>
+                </ul>
+              </section>
+            </div>
+          </transition>
   
-    </transition>
+        </div>
+  
+        <app-worm-loader v-else></app-worm-loader>
+  
+      </transition>
+  
+    </div>
   
   </main>
 </template>
@@ -95,6 +104,10 @@ export default {
 
     episodes() {
       return this.$store.getters.filteredEpisodes;
+    },
+
+    query() {
+      return this.$store.state.query;
     },
 
     running() {
@@ -158,12 +171,14 @@ export default {
       // this.currentEpisode.link = episode.link;
 
       this.$store.dispatch('select', episode);
+
+      // close drawer after selecting episode
       this.toggleDrawer();
 
       // autoplay episode on selection
       // document.querySelector('#player').autoplay = true;
 
-      jump('#app');
+      // jump('#app');
     },
 
     // // set rssData from localStorage or api call
@@ -211,9 +226,25 @@ export default {
       this.$store.dispatch('search', e.target.value);
     },
 
+    searchClose(val) {
+      this.$store.dispatch('search', val);
+    },
+
     toggleDrawer() {
-      this.$store.dispatch('toggleDrawer');
-    }
+      // open drawer if closed
+      if (!this.drawerOpen) {
+        jump('#drawer');
+        this.$store.dispatch('toggleDrawer');
+      } else {
+        // move to top first
+        jump('#app');
+        // then close drawer after 1.5s for smooth transition
+        const vm = this;
+        setTimeout(() => {
+          vm.$store.dispatch('toggleDrawer');
+        }, 1500);
+      }
+    },
 
   },
 
@@ -255,9 +286,22 @@ ul {
   top: -2px;
 }
 
+.icon-close {
+  @include transition();
+
+  cursor: pointer;
+}
+
 .search-container {
   position: relative;
   margin: 2em auto;
   width: 400px;
+}
+
+// target above tablet
+@media (min-width: 769px) {
+  .icon-close:hover {
+    color: $primeColor;
+  }
 }
 </style>
