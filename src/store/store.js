@@ -37,7 +37,7 @@ export const store = new Vuex.Store({
           console.log('Updated Feed')
 
           if (feed > episodes) {
-            $context.commit('fetch');
+            $context.dispatch('fetch');
           }
         })
         .catch(err => {
