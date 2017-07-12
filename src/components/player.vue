@@ -31,7 +31,7 @@
                     </button>-->
     </section>
   
-    <audio id="player" :src="currentEpisode.link"></audio>
+    <audio id="player" :src="currentEpisode.link" preload="auto"></audio>
   
     <div class="slider-container">
       <input type="range" min="0" :max="player.duration" v-model.number="slider.current" @mousedown="pause" @mouseup="handler(scrub, play)" @touchstart="pause" @touchend="handler(scrub, play)">
