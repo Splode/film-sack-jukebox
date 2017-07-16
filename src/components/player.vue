@@ -27,8 +27,8 @@
       </button>
   
       <!--<button class="btn-circle">
-                      <i class="material-icons">file_download</i>
-                    </button>-->
+                          <i class="material-icons">file_download</i>
+                        </button>-->
     </section>
   
     <audio id="player" :src="currentEpisode.link" preload="auto"></audio>
@@ -53,14 +53,14 @@
   
     <!--debugging audio on iOS-->
     <!--<section class="row">
-          <p v-cloak>{{ prettyCurrent }} / {{ player.prettyDuration }}</p>
-          <p>player: {{ player }}</p>
-          <p>autoplay: {{ player.autoplay }}</p>
-          <p>currentTime: {{ player.currentTime }}</p>
-          <p>duration: {{ player.duration }}</p>
-          <p>paused: {{ player.paused }}</p>
-          <p>readyState: {{ player.readyState }}</p>
-        </section>-->
+              <p v-cloak>{{ prettyCurrent }} / {{ player.prettyDuration }}</p>
+              <p>player: {{ player }}</p>
+              <p>autoplay: {{ player.autoplay }}</p>
+              <p>currentTime: {{ player.currentTime }}</p>
+              <p>duration: {{ player.duration }}</p>
+              <p>paused: {{ player.paused }}</p>
+              <p>readyState: {{ player.readyState }}</p>
+            </section>-->
   
   </div>
 </template>
@@ -81,8 +81,6 @@ export default {
       },
       slider: {
         current: 0,
-        // max: 0,
-        // range: 0,
         barWidth: 0,
       },
     }
@@ -155,18 +153,27 @@ export default {
       return `${hour}:${minutes}:${seconds}`;
     },
 
+    // select a random episode
     randomEpisode() {
-      const length = this.episodes.length;
+      // find a random episode from unfiltered episodes list
+      const length = this.$store.state.episodes.length;
       const rand = Math.floor(Math.random() * (length - 0 + 1)) + 0;
-      const episode = this.episodes[rand];
+      const episode = this.$store.state.episodes[rand];
 
       this.$store.dispatch('select', episode);
+      // clear search
+      this.searchClose('');
     },
 
     // update audio position based on slider
     scrub() {
       document.querySelector('#player').currentTime = this.slider.current;
       // console.log(document.querySelector('#player').currentTime)
+    },
+
+    // set search field
+    searchClose(val) {
+      this.$store.dispatch('search', val);
     },
 
     // fast-forward or rewind

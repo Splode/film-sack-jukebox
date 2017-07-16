@@ -1,9 +1,8 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
 
-const moment = require('moment')
-const localforage = require('localforage')
-import jump from 'jump.js'
+const moment = require('moment');
+const localforage = require('localforage');
 
 Vue.use(Vuex);
 
@@ -24,8 +23,8 @@ export const store = new Vuex.Store({
 
     checkFeed(context) {
       const $context = context;
-      // Vue.http.get('./static/frog.php')
-      Vue.http.get('/api/static/frog.php')
+      Vue.http.get('./static/frog.php')
+      // Vue.http.get('/api/static/frog.php')
         .then(response => {
           return response.json();
         })
@@ -34,7 +33,7 @@ export const store = new Vuex.Store({
           const feed = data.channel.item.length;
           const episodes = $context.state.episodes.length;
 
-          console.log('Updated Feed')
+          console.log('Updated Feed');
 
           if (feed > episodes) {
             $context.dispatch('fetch');
@@ -42,7 +41,7 @@ export const store = new Vuex.Store({
         })
         .catch(err => {
           console.log(err);
-        })
+        });
 
     },
 
@@ -50,8 +49,8 @@ export const store = new Vuex.Store({
     fetch(context) {
       // production => path needs to be set to directory relative during build if not on root
       // dev => path proxied for apache server
-      // Vue.http.get('./static/frog.php')
-      Vue.http.get('/api/static/frog.php')
+      Vue.http.get('./static/frog.php')
+      // Vue.http.get('/api/static/frog.php')
         .then(response => {
           return response.json();
         })
@@ -61,13 +60,13 @@ export const store = new Vuex.Store({
 
           // store api call response using localForage
           localforage.setItem('rssData', data)
-            .then(value => {
+            .then(() => {
               console.log('Successfully stored rss data');
             })
             .catch(err => {
               console.log(err);
-            })
-        })
+            });
+        });
     },
 
     // retrieve data from local storage or fetch
@@ -82,7 +81,7 @@ export const store = new Vuex.Store({
         })
         .catch(err => {
           console.log(err);
-        })
+        });
     },
 
     search(context, val) {
@@ -94,7 +93,7 @@ export const store = new Vuex.Store({
 
       // autoplay episode on selection
       document.querySelector('#player').autoplay = true;
-      
+
     },
 
     toggleDrawer(context) {
@@ -128,14 +127,14 @@ export const store = new Vuex.Store({
       //     })
       // }, 3600000); // every hour
       // const vm = this;
-      
+
       // call feed update immediately upon load
       context.dispatch('checkFeed');
 
       // call update every hour subsequently
       setInterval(() => {
         context.dispatch('checkFeed');
-      }, 3600000)
+      }, 3600000);
     },
 
   },
@@ -150,7 +149,7 @@ export const store = new Vuex.Store({
       const vm = state;
       return state.episodes.filter(episode => {
         return episode.title.toLowerCase().includes(vm.query.toLowerCase());
-      })
+      });
     }
 
   },
@@ -191,4 +190,4 @@ export const store = new Vuex.Store({
 
   },
 
-})
+});

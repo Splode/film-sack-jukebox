@@ -5,24 +5,33 @@
   
       <transition name="fade" mode="out-in">
   
+        <!-- main app -->
         <div v-if="running">
   
           <header class="row">
             <h1>Film Sack Jukebox</h1>
           </header>
   
+          <!-- current episode -->
           <section class="row mb-2">
             <h2>{{ currentEpisode.title }}</h2>
             <p>{{ currentEpisode.date }}</p>
           </section>
   
+          <!-- custom audio player -->
           <section class="row">
             <app-player></app-player>
           </section>
   
+          <!-- episode drawer -->
           <a id="drawer"></a>
-  
-          <section class="row d-flex justify-content-end">
+          <!-- episode drawer toggler -->
+          <section class="row d-flex justify-content-around">
+
+            <button class="btn-circle" title="About">
+              <i class="material-icons">more_horiz</i>
+            </button>
+
             <button class="btn-circle" @click="toggleDrawer" title="Toggle all episodes">
               <transition name="fade" mode="out-in">
                 <i class="material-icons" v-if="!drawerOpen">expand_more</i>
@@ -31,6 +40,7 @@
             </button>
           </section>
   
+          <!-- episode filter input field -->
           <transition name="fade">
             <div v-if="drawerOpen">
               <section class="row">
@@ -43,6 +53,7 @@
                 </div>
               </section>
   
+              <!-- episode list -->
               <section class="row">
                 <ul>
                   <li v-for="(episode, index) in episodes" v-bind:key="index">
@@ -58,11 +69,14 @@
   
         </div>
   
+        <!-- initial loading screen -->
         <app-worm-loader v-else></app-worm-loader>
   
       </transition>
   
     </div>
+
+    <app-info></app-info>
   
   </main>
 </template>
@@ -74,6 +88,7 @@ const moment = require('moment')
 const localforage = require('localforage')
 import jump from 'jump.js'
 
+import appInfo from './components/info'
 import appPlayer from './components/player'
 import appLoader from './components/loader'
 import appWormLoader from './components/worm-loader'
@@ -81,6 +96,7 @@ import appWormLoader from './components/worm-loader'
 export default {
 
   components: {
+    appInfo,
     appPlayer,
     appLoader,
     appWormLoader
