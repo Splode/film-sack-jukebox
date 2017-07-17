@@ -15,6 +15,7 @@ export const store = new Vuex.Store({
     },
     drawerOpen: false,
     episodes: [],
+    infoOpen: false,
     query: '',
     running: false,
   },
@@ -23,8 +24,8 @@ export const store = new Vuex.Store({
 
     checkFeed(context) {
       const $context = context;
-      Vue.http.get('./static/frog.php')
-      // Vue.http.get('/api/static/frog.php')
+      // Vue.http.get('./static/frog.php')
+      Vue.http.get('/api/static/frog.php')
         .then(response => {
           return response.json();
         })
@@ -49,8 +50,8 @@ export const store = new Vuex.Store({
     fetch(context) {
       // production => path needs to be set to directory relative during build if not on root
       // dev => path proxied for apache server
-      Vue.http.get('./static/frog.php')
-      // Vue.http.get('/api/static/frog.php')
+      // Vue.http.get('./static/frog.php')
+      Vue.http.get('/api/static/frog.php')
         .then(response => {
           return response.json();
         })
@@ -96,8 +97,8 @@ export const store = new Vuex.Store({
 
     },
 
-    toggleDrawer(context) {
-      context.commit('toggleDrawer');
+    toggleState(context) {
+      context.commit('toggleState');
     },
 
     // check for feed updates
@@ -184,7 +185,7 @@ export const store = new Vuex.Store({
       state.running = true;
     },
 
-    toggleDrawer(state) {
+    toggleState(state) {
       state.drawerOpen = !state.drawerOpen;
     },
 

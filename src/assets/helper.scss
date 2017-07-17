@@ -1,3 +1,11 @@
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 .container-fluid {
   width: 100%;
 }
@@ -36,24 +44,28 @@
   justify-content: center;
 }
 
+.align-items-center {
+  align-items: center;
+}
+
 // Margin
-.m1 {
+.m-1 {
   margin: 1em;
 }
 
-.m2 {
+.m-2 {
   margin: 2em;
 }
 
-.m3 {
+.m-3 {
   margin: 3em;
 }
 
-.m4 {
+.m-4 {
   margin: 4em;
 }
 
-.m5 {
+.m-5 {
   margin: 5em;
 }
 
@@ -184,23 +196,23 @@
 }
 
 // padding
-.p1 {
+.p-1 {
   padding: 1em;
 }
 
-.p2 {
+.p-2 {
   padding: 2em;
 }
 
-.p3 {
+.p-3 {
   padding: 3em;
 }
 
-.p4 {
+.p-4 {
   padding: 4em;
 }
 
-.p5 {
+.p-5 {
   padding: 5em;
 }
 

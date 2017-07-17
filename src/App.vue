@@ -1,6 +1,8 @@
 <template>
   <main id="app">
   
+    <app-info v-if="infoOpen"></app-info>
+  
     <div class="container">
   
       <transition name="fade" mode="out-in">
@@ -27,12 +29,12 @@
           <a id="drawer"></a>
           <!-- episode drawer toggler -->
           <section class="row d-flex justify-content-around">
-
+  
             <button class="btn-circle" title="About">
               <i class="material-icons">more_horiz</i>
             </button>
-
-            <button class="btn-circle" @click="toggleDrawer" title="Toggle all episodes">
+  
+            <button class="btn-circle" @click="toggleState" title="Toggle all episodes">
               <transition name="fade" mode="out-in">
                 <i class="material-icons" v-if="!drawerOpen">expand_more</i>
                 <i class="material-icons" v-else>expand_less</i>
@@ -75,8 +77,6 @@
       </transition>
   
     </div>
-
-    <app-info></app-info>
   
   </main>
 </template>
@@ -120,6 +120,10 @@ export default {
 
     episodes() {
       return this.$store.getters.filteredEpisodes;
+    },
+
+    infoOpen() {
+      return this.$store.state.infoOpen;
     },
 
     query() {
@@ -189,7 +193,7 @@ export default {
       this.$store.dispatch('select', episode);
 
       // close drawer after selecting episode
-      this.toggleDrawer();
+      this.toggleState();
 
       // autoplay episode on selection
       // document.querySelector('#player').autoplay = true;
@@ -246,18 +250,19 @@ export default {
       this.$store.dispatch('search', val);
     },
 
-    toggleDrawer() {
+    toggleState(e) {
+      console.log(e.target);
       // open drawer if closed
       if (!this.drawerOpen) {
         jump('#drawer');
-        this.$store.dispatch('toggleDrawer');
+        this.$store.dispatch('toggleState');
       } else {
         // move to top first
         jump('#app');
         // then close drawer after 1.5s for smooth transition
         const vm = this;
         setTimeout(() => {
-          vm.$store.dispatch('toggleDrawer');
+          vm.$store.dispatch('toggleState');
         }, 1500);
       }
     },
