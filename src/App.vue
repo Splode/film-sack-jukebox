@@ -1,7 +1,9 @@
 <template>
   <main id="app">
   
-    <app-info v-if="infoOpen"></app-info>
+    <transition name="fade" mode="out-in">
+      <app-info v-if="infoOpen"></app-info>
+    </transition>
   
     <div class="container">
   
@@ -30,11 +32,11 @@
           <!-- episode drawer toggler -->
           <section class="row d-flex justify-content-around">
   
-            <button class="btn-circle" title="About">
+            <button class="btn-circle" title="About" @click="toggleInfo">
               <i class="material-icons">more_horiz</i>
             </button>
   
-            <button class="btn-circle" @click="toggleState" title="Toggle all episodes">
+            <button class="btn-circle" @click="toggleDrawer" title="Toggle all episodes">
               <transition name="fade" mode="out-in">
                 <i class="material-icons" v-if="!drawerOpen">expand_more</i>
                 <i class="material-icons" v-else>expand_less</i>
@@ -193,7 +195,7 @@ export default {
       this.$store.dispatch('select', episode);
 
       // close drawer after selecting episode
-      this.toggleState();
+      this.toggleDrawer();
 
       // autoplay episode on selection
       // document.querySelector('#player').autoplay = true;
@@ -250,22 +252,29 @@ export default {
       this.$store.dispatch('search', val);
     },
 
-    toggleState(e) {
-      console.log(e.target);
+    toggleDrawer() {
       // open drawer if closed
       if (!this.drawerOpen) {
         jump('#drawer');
-        this.$store.dispatch('toggleState');
+        this.$store.dispatch('toggleState', 'drawer');
       } else {
         // move to top first
         jump('#app');
         // then close drawer after 1.5s for smooth transition
         const vm = this;
         setTimeout(() => {
-          vm.$store.dispatch('toggleState');
+          vm.$store.dispatch('toggleState', 'drawer');
         }, 1500);
       }
     },
+
+    toggleInfo() {
+      if (this.drawerOpen) {
+        jump('#app');
+      }
+      this.$store.dispatch('toggleState', 'info');
+      this.$store.dispatch('noScroll');
+    }
 
   },
 

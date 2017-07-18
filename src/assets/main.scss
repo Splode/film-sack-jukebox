@@ -171,6 +171,7 @@ ul li:first-child {
 
   align-items: center;
   background: $lightColorDark;
+  border: 1px solid #DDA01E;
   border-radius: 100%;
   color: $primeColor;
   display: inline-flex;
@@ -246,4 +247,30 @@ ul li:first-child {
         max-height: 0;
         opacity: 0;
     }
+}
+
+.slide-enter {
+  animation: slide-in 3s ease forwards;
+}
+
+.slide-leave {
+  animation: slide-out 3s ease forwards;
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateY(-100vh);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-out {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100vh);
+  }
 }

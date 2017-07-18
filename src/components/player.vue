@@ -9,14 +9,14 @@
       </button>
   
       <!--play / pause-->
-      <transition-group name="fade" mode="out-in">
-        <button class="btn-circle" @click="play" v-if="player.paused || player.paused === null" :key="play">
+      <transition name="fade" mode="out-in">
+        <button class="btn-circle" @click="play" v-if="player.paused || player.paused === null">
           <i class="material-icons">play_arrow</i>
         </button>
-        <button class="btn-circle" @click="pause" v-else :key="pause">
+        <button class="btn-circle" @click="pause" v-else>
           <i class="material-icons">pause</i>
         </button>
-      </transition-group>
+      </transition>
   
       <button @click="seek(30)" class="btn-circle" title="Advance 30 seconds">
         <i class="material-icons">forward_30</i>

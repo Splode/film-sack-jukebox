@@ -70,6 +70,10 @@ export const store = new Vuex.Store({
         });
     },
 
+    noScroll(context) {
+      context.commit('noScroll');
+    },
+
     // retrieve data from local storage or fetch
     retrieveData(context) {
       localforage.getItem('rssData')
@@ -97,8 +101,8 @@ export const store = new Vuex.Store({
 
     },
 
-    toggleState(context) {
-      context.commit('toggleState');
+    toggleState(context, payload) {
+      context.commit('toggleState', payload);
     },
 
     // check for feed updates
@@ -157,6 +161,14 @@ export const store = new Vuex.Store({
 
   mutations: {
 
+    noScroll(state) {
+      if (state.infoOpen) {
+        document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+      } else {
+        document.getElementsByTagName('body')[0].style.overflow = 'auto';
+      }
+    },
+
     setCurrentEpisode(state, episode) {
       state.currentEpisode.title = episode.title;
       state.currentEpisode.link = episode.link;
@@ -185,8 +197,12 @@ export const store = new Vuex.Store({
       state.running = true;
     },
 
-    toggleState(state) {
-      state.drawerOpen = !state.drawerOpen;
+    toggleState(state, payload) {
+      if (payload === 'drawer') {
+        state.drawerOpen = !state.drawerOpen;
+      } else if (payload === 'info') {
+        state.infoOpen = !state.infoOpen;
+      }
     },
 
   },
