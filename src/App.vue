@@ -10,7 +10,7 @@
       <transition name="fade" mode="out-in">
   
         <!-- main app -->
-        <div v-if="running">
+        <div v-if="running" class="mt-2">
   
           <header class="row">
             <h1>Film Sack Jukebox</h1>

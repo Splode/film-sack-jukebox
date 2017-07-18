@@ -1,13 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Monoton|Zilla+Slab:400');
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700');
 
-// $backgroundColor: white;
-// $primeColor: #2196F3;
-// $secondColor: #424242;
-// $secondColorLight: #757575;
-// $lightColor: whitesmoke;
-// $lightColorDark: lightgray;
-
 $backgroundColor: #171523;
 $backgroundColorLight: dimgray;
 $primeColor: #DDA01E;
@@ -28,7 +21,17 @@ $lightColorDark: #242230;
   display: none;
 }
 
-body, input, button, caption, small, p, h2, h3, h4, h5, h6 {
+body,
+input,
+button,
+caption,
+small,
+p,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: 'Zilla Slab', sans-serif;
   letter-spacing: .03em;
 }
@@ -54,12 +57,10 @@ button {
 // button p {
 //   text-transform: uppercase;
 // }
-
 h1 {
   color: $primeColor;
   font-family: 'Monoton', sans-serif;
-  font-size: 3.25rem;
-  // font-weight: 600;
+  font-size: 3.25rem; // font-weight: 600;
   margin: 1em 0;
 }
 
@@ -71,7 +72,7 @@ h2 {
 }
 
 // episode date
-h2 + p {
+h2+p {
   // margin: 1em 0;
   text-transform: uppercase;
 }
@@ -91,10 +92,8 @@ h3 {
 //   @include transition();
 //   color: $lightColor;
 // }
-
 input[type=text] {
   @include transition();
-
   background: transparent;
   border: 0;
   border-bottom: 2px solid $lightColor;
@@ -104,16 +103,13 @@ input[type=text] {
   outline: 0;
   position: relative;
   width: 400px;
-
-  & + i {
+  &+i {
     color: $lightColor;
   }
-
   &:focus {
     border-bottom: 2px solid $secondColor;
     color: $secondColor;
-  
-    &:focus + i {
+    &:focus+i {
       color: $secondColor;
     }
   }
@@ -121,7 +117,6 @@ input[type=text] {
 
 li button {
   @include box-shadow($primeColor);
-
   background-color: $primeColor;
   color: $backgroundColor;
   margin: 1em auto;
@@ -131,6 +126,10 @@ li button {
 
 ul li:first-child {
   margin-top: 1em;
+}
+
+.bg-dark {
+  background-color: $backgroundColor;
 }
 
 .container {
@@ -143,32 +142,32 @@ ul li:first-child {
 
 // Open drawer
 .open {
-    animation: open 1s ease forwards;
+  animation: open 1s ease forwards;
 }
 
 // Close drawer
 .close {
-    animation: close 1s ease forwards;
+  animation: close 1s ease forwards;
 }
 
 .fade-enter-active,
 .fade-leave-active {
-   @include transition();
+  @include transition();
 }
 
 .fade-enter,
 .fade-leave-to {
-    opacity: 0;
+  opacity: 0;
 }
 
 .row {
+  padding: 0 2%;
   width: 100%;
 }
 
 .btn-circle {
   @include box-shadow($primeColor);
   @include transition();
-
   align-items: center;
   background: $lightColorDark;
   border: 1px solid #DDA01E;
@@ -179,10 +178,8 @@ ul li:first-child {
   margin: 2em;
   width: 45px;
   height: 45px;
-
   &:active {
     @include box-shadow($primeColor);
-
     background: $primeColor;
     color: $backgroundColor;
   }
@@ -193,26 +190,28 @@ ul li:first-child {
   li button {
     width: 100%;
   }
+  .btn-circle {
+    margin: 2em 0;
+    padding: 0 auto;
+  }
 }
 
 // target above tablet
 @media (min-width: 769px) {
-
   li button:hover {
     @include box-shadow($secondColor);
-
     background-color: $secondColor;
     color: $secondColorLight;
     width: 560px;
-
     & p {
       color: $secondColorLight;
     }
   }
-
+  .btn-circle {
+    margin: 2em 1em;
+  }
   .btn-circle:hover {
     @include box-shadow($primeColor);
-
     background: $primeColor;
     color: $backgroundColor;
   }
@@ -228,25 +227,25 @@ ul li:first-child {
 }
 
 @keyframes open {
-    from {
-        max-height: 0;
-        opacity: 0;
-    }
-    to {
-        max-height: 100%;
-        opacity: 1;
-    }
+  from {
+    max-height: 0;
+    opacity: 0;
+  }
+  to {
+    max-height: 100%;
+    opacity: 1;
+  }
 }
 
 @keyframes close {
-    from {
-        max-height: 100%;
-        opacity: 1;
-    }
-    to {
-        max-height: 0;
-        opacity: 0;
-    }
+  from {
+    max-height: 100%;
+    opacity: 1;
+  }
+  to {
+    max-height: 0;
+    opacity: 0;
+  }
 }
 
 .slide-enter {
