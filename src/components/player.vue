@@ -27,8 +27,8 @@
       </button>
   
       <!--<button class="btn-circle">
-                          <i class="material-icons">file_download</i>
-                        </button>-->
+                                  <i class="material-icons">file_download</i>
+                                </button>-->
     </section>
   
     <audio id="player" :src="currentEpisode.link" preload="auto"></audio>
@@ -53,14 +53,14 @@
   
     <!--debugging audio on iOS-->
     <!--<section class="row">
-              <p v-cloak>{{ prettyCurrent }} / {{ player.prettyDuration }}</p>
-              <p>player: {{ player }}</p>
-              <p>autoplay: {{ player.autoplay }}</p>
-              <p>currentTime: {{ player.currentTime }}</p>
-              <p>duration: {{ player.duration }}</p>
-              <p>paused: {{ player.paused }}</p>
-              <p>readyState: {{ player.readyState }}</p>
-            </section>-->
+                      <p v-cloak>{{ prettyCurrent }} / {{ player.prettyDuration }}</p>
+                      <p>player: {{ player }}</p>
+                      <p>autoplay: {{ player.autoplay }}</p>
+                      <p>currentTime: {{ player.currentTime }}</p>
+                      <p>duration: {{ player.duration }}</p>
+                      <p>paused: {{ player.paused }}</p>
+                      <p>readyState: {{ player.readyState }}</p>
+                    </section>-->
   
   </div>
 </template>
@@ -312,8 +312,7 @@ input[type=range]:hover::-moz-range-thumb {
 input[type=range]::-ms-track {
   width: 100%;
   height: 2px;
-  cursor: pointer;
-  animate: 0.2s;
+  cursor: pointer; // animate: 0.2s;
   background: transparent;
   border-color: transparent;
   border-width: 16px 0;
@@ -321,34 +320,43 @@ input[type=range]::-ms-track {
 }
 
 input[type=range]::-ms-fill-lower {
-  background: #2a6495;
-  border: 0.2px solid #010101;
-  border-radius: 2.6px;
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: $lightColorDark;
+  border: 0.2px solid $lightColorDark;
+  border-radius: 2.6px; // box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
 }
 
 input[type=range]::-ms-fill-upper {
-  background: #3071a9;
-  border: 0.2px solid #010101;
-  border-radius: 2.6px;
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: $lightColorDark;
+  border: 0.2px solid $lightColorDark;
+  border-radius: 2.6px; // box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
 }
 
 input[type=range]::-ms-thumb {
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  border: 1px solid #000000;
-  height: 36px;
-  width: 16px;
-  border-radius: 3px;
-  background: #ffffff;
+  // box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  // border: 1px solid $primeColor;
+  height: 20px;
+  width: 20px;
+  border-radius: 100%;
+  background: $primeColor;
   cursor: pointer;
+  margin-top: -2px;
 }
 
 input[type=range]:focus::-ms-fill-lower {
-  background: #3071a9;
+  background: $lightColorDark;
 }
 
 input[type=range]:focus::-ms-fill-upper {
-  background: #367ebd;
+  background: $lightColorDark;
+}
+
+@supports (-ms-ime-align:auto) {
+  input[type=range] {
+    height: 50px;
+  }
+
+  .slider-bar {
+    top: calc(46%);
+  }
 }
 </style>
