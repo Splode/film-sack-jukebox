@@ -24,8 +24,8 @@ export const store = new Vuex.Store({
 
     checkFeed(context) {
       const $context = context;
-      // Vue.http.get('./static/frog.php')
-      Vue.http.get('/api/static/frog.php')
+      Vue.http.get('./static/frog.php')
+      // Vue.http.get('/api/static/frog.php')
         .then(response => {
           return response.json();
         })
@@ -50,8 +50,8 @@ export const store = new Vuex.Store({
     fetch(context) {
       // production => path needs to be set to directory relative during build if not on root
       // dev => path proxied for apache server
-      // Vue.http.get('./static/frog.php')
-      Vue.http.get('/api/static/frog.php')
+      Vue.http.get('./static/frog.php')
+      // Vue.http.get('/api/static/frog.php')
         .then(response => {
           return response.json();
         })

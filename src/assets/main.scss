@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Monoton|Zilla+Slab:400');
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700');
-
 $backgroundColor: #171523;
 $backgroundColorLight: dimgray;
 $primeColor: #DDA01E;
@@ -8,7 +7,6 @@ $secondColor: #B61F3E;
 $secondColorLight: beige;
 $lightColor: #3A3849;
 $lightColorDark: #242230;
-
 @mixin box-shadow($color) {
   box-shadow: 0 0 10px $color;
 }
@@ -102,7 +100,7 @@ input[type=text] {
   font-size: 1.25em;
   outline: 0;
   position: relative;
-  width: 400px;
+  width: 100%;
   &+i {
     color: $lightColor;
   }
@@ -192,7 +190,12 @@ ul li:first-child {
   }
   .btn-circle {
     margin: 2em 0;
-    padding: 0 auto;
+    & i {
+      margin-left: -1.75px;
+    }
+  }
+  .search-container {
+    width: 320px;
   }
 }
 
