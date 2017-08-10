@@ -17,7 +17,8 @@
           <a href="http://christopherianmurphy.com" target="_blank">Christopher Murphy</a>
         </p>
         <p>
-          <a href="http://filmsack.com" target="_blank">Film Sack</a> <span class="highlight">&bigstar;</span>
+          <a href="http://filmsack.com" target="_blank">Film Sack</a>
+          <span class="highlight">&bigstar;</span>
           <a href="http://frogpants.com" target="_blank">frogpants studios</a>
         </p>
       </section>
@@ -62,7 +63,6 @@ $bg-light-alpha: rgba(58, 56, 73, .8);
 // .bg-dark-transparent {
 //   background: rgba(23, 21, 35, 1);
 // }
-
 .bg-light-transparent {
   background: $bg-light-alpha;
 }
