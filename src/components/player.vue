@@ -1,13 +1,13 @@
 <template>
   <div>
-  
+
     <!--audio controls-->
-    <section class="row d-flex justify-content-around">
-  
+    <section class="row d-flex justify-content-center">
+
       <button @click="seek(10)" class="btn-circle" title="Rewind 10 seconds">
         <i class="material-icons">replay_10</i>
       </button>
-  
+
       <!--play / pause-->
       <transition name="fade" mode="out-in">
         <button class="btn-circle" @click="play" v-if="player.paused || player.paused === null">
@@ -17,28 +17,29 @@
           <i class="material-icons">pause</i>
         </button>
       </transition>
-  
+
       <button @click="seek(30)" class="btn-circle" title="Advance 30 seconds">
         <i class="material-icons">forward_30</i>
       </button>
-  
+
       <button @click="randomEpisode" class="btn-circle" title="Random episode">
         <i class="material-icons">shuffle</i>
       </button>
-  
+
       <!--<button class="btn-circle">
-                                  <i class="material-icons">file_download</i>
-                                </button>-->
+                                    <i class="material-icons">file_download</i>
+                                  </button>-->
     </section>
-  
+
     <audio id="player" :src="currentEpisode.link" preload="auto"></audio>
-  
+
     <div class="slider-container">
-      <input type="range" min="0" :max="player.duration" v-model.number="slider.current" @mousedown="pause" @mouseup="handler(scrub, play)" @touchstart="pause" @touchend="handler(scrub, play)">
+      <input type="range" min="0" :max="player.duration" v-model.number="slider.current" @mousedown="pause" @mouseup="handler(scrub, play)"
+        @touchstart="pause" @touchend="handler(scrub, play)">
       <!--<input type="range" min="0" :max="player.duration" v-model.number="slider.current" v-on:change="scrub" @mousedown="pause" @mouseup="play">-->
       <div class="slider-bar" :style="{ width: slider.barWidth + '%' }"></div>
     </div>
-  
+
     <section class="row my-1">
       <transition name="fade" mode="out-in">
         <div v-if="player.readyState < 2">
@@ -50,20 +51,21 @@
         </div>
       </transition>
     </section>
-  
+
     <!--debugging audio on iOS-->
     <!--<section class="row">
-                      <p v-cloak>{{ prettyCurrent }} / {{ player.prettyDuration }}</p>
-                      <p>player: {{ player }}</p>
-                      <p>autoplay: {{ player.autoplay }}</p>
-                      <p>currentTime: {{ player.currentTime }}</p>
-                      <p>duration: {{ player.duration }}</p>
-                      <p>paused: {{ player.paused }}</p>
-                      <p>readyState: {{ player.readyState }}</p>
-                    </section>-->
-  
+          <p v-cloak>{{ prettyCurrent }} / {{ player.prettyDuration }}</p>
+          <p>player: {{ player }}</p>
+          <p>autoplay: {{ player.autoplay }}</p>
+          <p>currentTime: {{ player.currentTime }}</p>
+          <p>duration: {{ player.duration }}</p>
+          <p>paused: {{ player.paused }}</p>
+          <p>readyState: {{ player.readyState }}</p>
+        </section>-->
+
   </div>
 </template>
+
 
 <script>
 const moment = require('moment')
@@ -213,6 +215,7 @@ export default {
     this.createPlayerObj();
   },
 }
+
 </script>
 
 <style lang="scss">

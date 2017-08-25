@@ -10,7 +10,7 @@
       <transition name="fade" mode="out-in">
   
         <!-- main app -->
-        <div v-if="running" class="mt-2">
+        <div v-if="running" class="content mt-2">
   
           <header class="row">
             <h1>Film Sack Jukebox</h1>
@@ -30,7 +30,7 @@
           <!-- episode drawer -->
           <a id="drawer"></a>
           <!-- episode drawer toggler -->
-          <section class="row d-flex justify-content-around">
+          <section class="row d-flex justify-content-center">
   
             <button class="btn-circle" title="About" @click="toggleInfo">
               <i class="material-icons">more_horiz</i>
@@ -308,6 +308,10 @@ button {
 
 ul {
   list-style-type: none;
+}
+
+.content {
+  width: 600px;
 }
 
 .icon-search {
