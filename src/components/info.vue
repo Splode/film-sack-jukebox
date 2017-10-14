@@ -60,9 +60,6 @@ export default {
 
 $bg-light-alpha: rgba(58, 56, 73, .8);
 
-// .bg-dark-transparent {
-//   background: rgba(23, 21, 35, 1);
-// }
 .bg-light-transparent {
   background: $bg-light-alpha;
 }
@@ -141,27 +138,4 @@ $bg-light-alpha: rgba(58, 56, 73, .8);
     color: $primeColor;
   }
 }
-
-// .slide-enter {
-//   animation: slide-in .3s ease forwards;
-// }
-// .slide-leave {
-//   animation: slide-out .3s ease forwards;
-// }
-// @keyframes slide-in {
-//   0% {
-//     transform: translateY(-100vh);
-//   }
-//   100% {
-//     transform: translateY(0);
-//   }
-// }
-// @keyframes slide-out {
-//   0% {
-//     transform: translateY(0);
-//   }
-//   100% {
-//     transform: translateY(-100vh);
-//   }
-// }
 </style>
