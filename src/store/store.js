@@ -24,6 +24,7 @@ export const store = new Vuex.Store({
 
     checkFeed(context) {
       const $context = context;
+      // NOTE: use './static' for distribution
       // Vue.http.get('./static/frog.php')
       Vue.http.get('/api/static/frog.php')
         .then(response => {
@@ -48,8 +49,7 @@ export const store = new Vuex.Store({
 
     // fetch rss data using local php script and handle response, set localStorage
     fetch(context) {
-      // production => path needs to be set to directory relative during build if not on root
-      // dev => path proxied for apache server
+      // NOTE: use './static' for distribution
       // Vue.http.get('./static/frog.php')
       Vue.http.get('/api/static/frog.php')
         .then(response => {
@@ -147,6 +147,7 @@ export const store = new Vuex.Store({
     setCurrentEpisode(state, episode) {
       state.currentEpisode.title = episode.title;
       state.currentEpisode.link = episode.link;
+      state.currentEpisode.date = episode.date;
     },
 
     setQuery(state, val) {
