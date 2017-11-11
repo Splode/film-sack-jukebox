@@ -13,7 +13,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./../assets/main.scss";
+// @import "./../assets/main.scss";
+@import './../assets/_variables.scss';
 
 $droplet-size: 20px;
 
@@ -33,7 +34,7 @@ $droplet-size: 20px;
 
   background-color: $primeColor;
   border-radius: 100%;
-  margin: 0 $droplet-size/2.5;
+  margin: 0 auto;
   width: $droplet-size;
   height: $droplet-size;
 

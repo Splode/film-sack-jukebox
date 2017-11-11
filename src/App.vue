@@ -10,27 +10,25 @@
       <transition name="fade" mode="out-in">
   
         <!-- main app -->
-        <div v-if="running" class="content mt-2">
+        <div v-if="running" class="row mt-5">
   
-          <header class="row">
+          <header class="col-md-6 mx-auto mt-md-5">
             <h1>Film Sack Jukebox</h1>
           </header>
   
           <!-- current episode -->
-          <section class="row mb-2">
+          <section class="col-md-8 mx-auto mt-3 mb-2">
             <h2>{{ currentEpisode.title }}</h2>
             <p>{{ currentEpisode.date }}</p>
           </section>
   
           <!-- custom audio player -->
-          <section class="row">
-            <app-player></app-player>
-          </section>
+          <app-player/>
   
           <!-- episode drawer -->
           <a id="drawer"></a>
           <!-- episode drawer toggler -->
-          <section class="row d-flex justify-content-center">
+          <section class="col-md-4 mx-auto my-4 d-flex justify-content-around">
   
             <button class="btn-circle" title="About" @click="toggleInfo">
               <i class="material-icons">more_horiz</i>
@@ -46,9 +44,9 @@
   
           <!-- episode filter input field -->
           <transition name="fade">
-            <div v-if="drawerOpen">
+            <div class="col-12" v-if="drawerOpen">
               <section class="row">
-                <div class="search-container">
+                <div class="col-md-6 mx-auto">
                   <input type="text" @input="search" v-model="query">
                   <transition name="fade" mode="out-in">
                     <i class="material-icons icon-search" v-if="query === ''">search</i>
@@ -58,7 +56,7 @@
               </section>
   
               <!-- episode list -->
-              <section class="row">
+              <section>
                 <ul>
                   <li v-for="(episode, index) in episodes" v-bind:key="index">
                     <button @click="select(episode)">
@@ -188,11 +186,23 @@ export default {
 <style lang="scss">
 @import "./assets/normalize.css";
 @import "./assets/reset.css";
-@import "./assets/helper.scss";
-@import "./assets/main.scss";
+// @import "./assets/helper.scss";
+// @import "./assets/main.scss";
+@import './assets/_variables.scss';
 
 button {
   cursor: pointer;
+}
+
+h1 {
+  color: $primeColor;
+  font-family: 'Monoton', sans-serif;
+  font-size: 3.25rem;
+  line-height: 1em;
+  margin: 1em 0;
+  @media screen and (max-width: 440px) {
+    font-size: 2.25em;
+  }
 }
 
 ul {
@@ -205,21 +215,20 @@ ul {
 
 .icon-search {
   position: absolute;
-  right: 0;
+  right: 5%;
   top: -2px;
 }
 
 .icon-close {
   @include transition();
-
   cursor: pointer;
 }
 
-.search-container {
-  position: relative;
-  margin: 2em auto;
-  width: 400px;
-}
+// .search-container {
+//   position: relative;
+//   margin: 2em auto;
+//   width: 400px;
+// }
 
 // target above tablet
 @media (min-width: 769px) {

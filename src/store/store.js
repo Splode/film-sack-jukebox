@@ -1,10 +1,10 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from 'vue'
+import Vuex from 'vuex'
 
-const moment = require('moment');
-const localforage = require('localforage');
+const moment = require('moment')
+const localforage = require('localforage')
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
@@ -23,27 +23,27 @@ export const store = new Vuex.Store({
   actions: {
 
     checkFeed(context) {
-      const $context = context;
+      const $context = context
       // NOTE: use './static' for distribution
       // Vue.http.get('./static/frog.php')
       Vue.http.get('/api/static/frog.php')
         .then(response => {
-          return response.json();
+          return response.json()
         })
         .then(data => {
           // check if remote feed length differs from local feed length
-          const feed = data.channel.item.length;
-          const episodes = $context.state.episodes.length;
+          const feed = data.channel.item.length
+          const episodes = $context.state.episodes.length
 
-          console.log('Updated Feed');
+          console.log('Updated Feed')
 
           if (feed > episodes) {
-            $context.dispatch('fetch');
+            $context.dispatch('fetch')
           }
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
 
     },
 
@@ -53,25 +53,25 @@ export const store = new Vuex.Store({
       // Vue.http.get('./static/frog.php')
       Vue.http.get('/api/static/frog.php')
         .then(response => {
-          return response.json();
+          return response.json()
         })
         .then(data => {
 
-          context.commit('setRssData', data);
+          context.commit('setRssData', data)
 
           // store api call response using localForage
           localforage.setItem('rssData', data)
             .then(() => {
-              console.log('Successfully stored rss data');
+              console.log('Successfully stored rss data')
             })
             .catch(err => {
-              console.log(err);
-            });
-        });
+              console.log(err)
+            })
+        })
     },
 
     noScroll(context) {
-      context.commit('noScroll');
+      context.commit('noScroll')
     },
 
     // retrieve data from local storage or fetch
@@ -79,42 +79,43 @@ export const store = new Vuex.Store({
       localforage.getItem('rssData')
         .then(value => {
           if (value !== null) {
-            context.commit('setRssData', value);
+            console.log('Retrieving feed data from local storage')
+            context.commit('setRssData', value)
           } else {
-            context.dispatch('fetch');
+            context.dispatch('fetch')
           }
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
 
     search(context, val) {
-      context.commit('setQuery', val);
+      context.commit('setQuery', val)
     },
 
     select(context, episode) {
-      context.commit('setCurrentEpisode', episode);
+      context.commit('setCurrentEpisode', episode)
 
       // autoplay episode on selection
-      document.querySelector('#player').autoplay = true;
+      document.querySelector('#player').autoplay = true
 
     },
 
     toggleState(context, payload) {
-      context.commit('toggleState', payload);
+      context.commit('toggleState', payload)
     },
 
     // check for feed updates
     updateCheck(context) {
 
       // call feed update immediately upon load
-      context.dispatch('checkFeed');
+      context.dispatch('checkFeed')
 
       // call update every hour subsequently
       setInterval(() => {
-        context.dispatch('checkFeed');
-      }, 3600000);
+        context.dispatch('checkFeed')
+      }, 3600000)
     },
 
   },
@@ -122,14 +123,14 @@ export const store = new Vuex.Store({
   getters: {
 
     currentEpisode: state => {
-      return state.currentEpisode;
+      return state.currentEpisode
     },
 
     filteredEpisodes: state => {
-      const vm = state;
+      const vm = state
       return state.episodes.filter(episode => {
-        return episode.title.toLowerCase().includes(vm.query.toLowerCase());
-      });
+        return episode.title.toLowerCase().includes(vm.query.toLowerCase())
+      })
     }
 
   },
@@ -138,20 +139,20 @@ export const store = new Vuex.Store({
 
     noScroll(state) {
       if (state.infoOpen) {
-        document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+        document.getElementsByTagName('body')[0].style.overflow = 'hidden'
       } else {
-        document.getElementsByTagName('body')[0].style.overflow = 'auto';
+        document.getElementsByTagName('body')[0].style.overflow = 'auto'
       }
     },
 
     setCurrentEpisode(state, episode) {
-      state.currentEpisode.title = episode.title;
-      state.currentEpisode.link = episode.link;
-      state.currentEpisode.date = episode.date;
+      state.currentEpisode.title = episode.title
+      state.currentEpisode.link = episode.link
+      state.currentEpisode.date = episode.date
     },
 
     setQuery(state, val) {
-      state.query = val;
+      state.query = val
     },
 
     // set rssData from localStorage or api call
@@ -159,28 +160,28 @@ export const store = new Vuex.Store({
 
       // format publish date for each episode using moment.js
       data.channel.item.forEach(el => {
-        el.date = moment(el.pubDate).format('MMMM DD, YYYY');
-      });
+        el.date = moment(el.pubDate).format('MMMM DD, YYYY')
+      })
 
       // set api response object\
-      state.episodes = data.channel.item;
+      state.episodes = data.channel.item
 
       // set current episode to the latest episode
-      state.currentEpisode.title = data.channel.item[0].title;
-      state.currentEpisode.link = data.channel.item[0].link;
-      state.currentEpisode.date = data.channel.item[0].date;
+      state.currentEpisode.title = data.channel.item[0].title
+      state.currentEpisode.link = data.channel.item[0].link
+      state.currentEpisode.date = data.channel.item[0].date
 
-      state.running = true;
+      state.running = true
     },
 
     toggleState(state, payload) {
       if (payload === 'drawer') {
-        state.drawerOpen = !state.drawerOpen;
+        state.drawerOpen = !state.drawerOpen
       } else if (payload === 'info') {
-        state.infoOpen = !state.infoOpen;
+        state.infoOpen = !state.infoOpen
       }
     },
 
   },
 
-});
+})
