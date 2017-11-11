@@ -60,7 +60,7 @@
                 <ul>
                   <li v-for="(episode, index) in episodes" v-bind:key="index">
                     <button @click="select(episode)">
-                      <h3>{{ episode.title }}</h3>
+                      <h3 class="EpisodeList-title">{{ episode.title }}</h3>
                       <p>{{ episode.date }}</p>
                     </button>
                   </li>
@@ -207,6 +207,13 @@ h1 {
 
 ul {
   list-style-type: none;
+}
+
+.EpisodeList-title {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  letter-spacing: inherit;
+  margin-bottom: 1em;
 }
 
 .content {
