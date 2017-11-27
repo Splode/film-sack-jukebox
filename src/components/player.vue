@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="col-12">
 
     <!--audio controls-->
-    <section class="row d-flex justify-content-center">
+    <section class="col-xs-8 col-sm-8 col-md-6 col-lg-4 mx-auto my-4 d-flex justify-content-between">
 
       <button @click="seek(10)" class="btn-circle" title="Rewind 10 seconds">
         <i class="material-icons">replay_10</i>
@@ -33,21 +33,25 @@
 
     <audio id="player" :src="currentEpisode.link" preload="auto"></audio>
 
-    <div class="slider-container">
-      <input type="range" min="0" :max="player.duration" v-model.number="slider.current" @mousedown="pause" @mouseup="handler(scrub, play)"
-        @touchstart="pause" @touchend="handler(scrub, play)">
-      <!--<input type="range" min="0" :max="player.duration" v-model.number="slider.current" v-on:change="scrub" @mousedown="pause" @mouseup="play">-->
-      <div class="slider-bar" :style="{ width: slider.barWidth + '%' }"></div>
+    <div class="col-md-8 mx-auto">
+      <div class="slider-container">
+        <input type="range" min="0" :max="player.duration" v-model.number="slider.current" @mousedown="pause" @mouseup="handler(scrub, play)"
+          @touchstart="pause" @touchend="handler(scrub, play)">
+        <!--<input type="range" min="0" :max="player.duration" v-model.number="slider.current" v-on:change="scrub" @mousedown="pause" @mouseup="play">-->
+        <div class="slider-bar" :style="{ width: slider.barWidth + '%' }"></div>
+      </div>
     </div>
 
-    <section class="row my-1">
+    
+
+    <section class="col-md-8 mx-auto mt-3 d-flex justify-content-around">
       <transition name="fade" mode="out-in">
-        <div v-if="player.readyState < 2">
+        <div class="col-12" v-if="player.readyState < 2">
           <p :class="{ hidden: player.readyState === null }">Loading...</p>
         </div>
-        <div v-else-if="player.readyState >= 2 || !player.paused" class="d-flex justify-content-around">
-          <p>{{ prettyCurrent }}</p>
-          <p>{{ player.prettyDuration }}</p>
+        <div class="col-12 d-flex justify-content-around" v-else-if="player.readyState >= 2 || !player.paused">
+          <p style="display: inline-block">{{ prettyCurrent }}</p>
+          <p style="display: inline-block">{{ player.prettyDuration }}</p>
         </div>
       </transition>
     </section>
@@ -91,15 +95,15 @@ export default {
   computed: {
 
     currentEpisode() {
-      return this.$store.getters.currentEpisode;
+      return this.$store.getters.currentEpisode
     },
 
     episodes() {
-      return this.$store.getters.filteredEpisodes;
+      return this.$store.getters.filteredEpisodes
     },
 
     prettyCurrent() {
-      return this.prettyTime(this.slider.current);
+      return this.prettyTime(this.slider.current)
     },
 
   },
@@ -107,7 +111,7 @@ export default {
   methods: {
 
     createPlayerObj() {
-      const audio = document.querySelector('#player');
+      const audio = document.querySelector('#player')
 
       audio.addEventListener('loadeddata', () => {
         this.player = {
@@ -120,7 +124,7 @@ export default {
           volume: audio.volume,
         }
 
-      });
+      })
 
       // reset audio readyState on episode change
       audio.addEventListener('abort', () => {
@@ -133,78 +137,78 @@ export default {
 
     // executes multiple functions on DOM events
     handler(func1, func2) {
-      func1();
-      func2();
+      func1()
+      func2()
     },
 
     pause() {
-      document.querySelector('#player').pause();
-      this.player.paused = true;
+      document.querySelector('#player').pause()
+      this.player.paused = true
     },
 
     play() {
-      document.querySelector('#player').play();
-      this.player.paused = false;
+      document.querySelector('#player').play()
+      this.player.paused = false
     },
 
     // use moment to convert audio time to a nicer format
     prettyTime(time) {
-      const duration = moment.duration(time, 'seconds');
+      const duration = moment.duration(time, 'seconds')
 
-      const hour = duration.get('hours');
-      const minutes = duration.get('minutes');
-      const seconds = duration.get('seconds');
+      const hour = duration.get('hours')
+      const minutes = duration.get('minutes')
+      const seconds = duration.get('seconds')
 
-      return `${hour}:${minutes}:${seconds}`;
+      return `${hour}:${minutes}:${seconds}`
     },
 
     // select a random episode
     randomEpisode() {
       // find a random episode from unfiltered episodes list
-      const length = this.$store.state.episodes.length;
-      const rand = Math.floor(Math.random() * (length - 0 + 1)) + 0;
-      const episode = this.$store.state.episodes[rand];
+      const length = this.$store.state.episodes.length
+      const rand = Math.floor(Math.random() * (length - 0 + 1)) + 0
+      const episode = this.$store.state.episodes[rand]
 
-      this.$store.dispatch('select', episode);
+      this.$store.dispatch('select', episode)
       // clear search
-      this.searchClose('');
+      this.searchClose('')
     },
 
     // update audio position based on slider
     scrub() {
-      document.querySelector('#player').currentTime = this.slider.current;
+      document.querySelector('#player').currentTime = this.slider.current
       // console.log(document.querySelector('#player').currentTime)
     },
 
     // set search field
     searchClose(val) {
-      this.$store.dispatch('search', val);
+      this.$store.dispatch('search', val)
     },
 
     // fast-forward or rewind
     seek(dir) {
-      let time = document.querySelector('#player');
-      let slider = this.slider.current;
+      let time = document.querySelector('#player')
+      let slider = this.slider.current
 
       if (dir === 30) {
-        slider += dir;
-        time.currentTime += dir;
+        slider += dir
+        time.currentTime += dir
       } else {
-        slider -= dir;
-        time.currentTime -= dir;
+        slider -= dir
+        time.currentTime -= dir
       }
     },
 
     // update slider position based on audio playback
     updateSlider() {
-      let audio = document.querySelector('#player');
+      let audio = document.querySelector('#player')
 
       audio.addEventListener('timeupdate', () => {
-        this.slider.current = audio.currentTime;
+        this.slider.current = audio.currentTime
 
-        this.slider.barWidth = (audio.currentTime) / (this.player.duration) * 100;
+        this.slider.barWidth = (audio.currentTime) / (this.player.duration) * 100
 
-        this.player.paused = audio.paused;
+        this.player.paused = audio.paused
 
       })
     },
@@ -212,18 +216,48 @@ export default {
 
   mounted() {
     // call slider update
-    this.updateSlider();
+    this.updateSlider()
 
     // load audio player attributes on change
-    this.createPlayerObj();
+    this.createPlayerObj()
   },
 }
 
 </script>
 
 <style lang="scss">
-@import "./../assets/helper.scss";
-@import "./../assets/main.scss";
+// @import "./../assets/helper.scss";
+// @import "./../assets/main.scss";
+@import './../assets/_variables.scss';
+
+// episode title
+h2 {
+  color: $secondColor;
+  font-family: 'Zilla Slab', serif;
+  font-size: 1.5rem;
+  margin-bottom: 1em;
+}
+
+// episode date
+h2+p {
+  // margin: 1em 0;
+  font-family: 'Zilla Slab', serif;
+  text-transform: uppercase;
+}
+
+// episode card title
+h3 {
+  // color: $backgroundColor;
+  font-family: 'Roboto', sans-serif;
+  // font-size: 1.33em;
+  font-weight: 500;
+  letter-spacing: inherit;
+  margin-bottom: 1em;
+}
+
+p {
+  font-family: 'Zilla Slab', serif;
+}
 
 .slider-bar {
   background: $primeColor;

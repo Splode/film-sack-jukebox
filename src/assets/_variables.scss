@@ -1,0 +1,23 @@
+// colors
+$backgroundColor: #171523;
+$backgroundColorLight: dimgray;
+$primeColor: #DDA01E;
+$secondColor: #B61F3E;
+$secondColorLight: beige;
+$lightColor: #3A3849;
+$lightColorDark: #242230;
+
+// grid
+$grid-sm: 576px;
+$grid-md: 768px;
+$grid-lg: 992px;
+$grid-xl: 1200px;
+
+
+@mixin box-shadow($color) {
+  box-shadow: 0 0 10px $color;
+}
+
+@mixin transition() {
+  transition: all .3s cubic-bezier(0.22, 0.61, 0.36, 1);
+}

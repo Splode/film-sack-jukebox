@@ -1,27 +1,33 @@
 <template>
   <div class="modal bg-dark">
   
-    <div class="container d-flex flex-direction-column justify-content-center modal-container">
+    <div class="container modal-container">
+
+      <section class="row info">
+
+        <div class="col-12 pt-3 pt-md-5 text-right" v-on-clickaway="toggleInfo">
+          <button class="btn-circle btn-close" title="Close" @click="toggleInfo">
+            <i class="material-icons">close</i>
+          </button>
+        </div>
   
-      <section class="row d-flex flex-direction-column info" v-on-clickaway="toggleInfo">
-  
-        <button class="btn-circle btn-close" title="Close" @click="toggleInfo">
-          <i class="material-icons">close</i>
-        </button>
-  
-        <h2>Film Sack Jukebox</h2>
-        <p class="mb-1">A podcast web app for the Frog Pants podcast, Film Sack.</p>
-        <p>Film Sack is a weekly podcast focused on film and television created by Scott Johnson on the FrogPants Studios Network. It is hosted by Scott Johnson, Brian Ibbott, Brian Dunaway, and Randy Jordan.</p>
-  
-        <p class="mt-1">Made by
-          <a href="http://christopherianmurphy.com" target="_blank">Christopher Murphy</a>
-        </p>
-        <p>
-          <a href="http://filmsack.com" target="_blank">Film Sack</a>
-          <span class="highlight">&bigstar;</span>
-          <a href="http://frogpants.com" target="_blank">frogpants studios</a>
-        </p>
+        <div class="col-md-8 mx-auto mt-2 mt-sm-5">
+          <h2>Film Sack Jukebox</h2>
+          <p class="mb-1">A podcast web app for the Frog Pants podcast, Film Sack.</p>
+          <p>Film Sack is a weekly podcast focused on film and television created by Scott Johnson on the FrogPants Studios Network. It is hosted by Scott Johnson, Brian Ibbott, Brian Dunaway, and Randy Jordan.</p>
+    
+          <p class="mt-1">Made by
+            <a href="http://christopherianmurphy.com" target="_blank">Christopher Murphy</a>
+          </p>
+          <p>
+            <a href="http://filmsack.com" target="_blank">Film Sack</a>
+            <span class="highlight">&bigstar;</span>
+            <a href="http://frogpants.com" target="_blank">frogpants studios</a>
+          </p>
+
+        </div>
       </section>
+
     </div>
   </div>
 </template>
@@ -55,8 +61,9 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./../assets/helper.scss";
-@import "./../assets/main.scss";
+// @import "./../assets/helper.scss";
+// @import "./../assets/main.scss";
+@import './../assets/_variables.scss';
 
 $bg-light-alpha: rgba(58, 56, 73, .8);
 
@@ -65,9 +72,9 @@ $bg-light-alpha: rgba(58, 56, 73, .8);
 }
 
 .btn-close {
-  position: absolute;
-  top: 0;
-  right: 0;
+  // position: absolute;
+  // top: 0;
+  // right: 0;
 }
 
 .highlight {
@@ -77,8 +84,9 @@ $bg-light-alpha: rgba(58, 56, 73, .8);
 .info {
   // @include box-shadow($bg-light-alpha);
   line-height: 2em;
-  padding: 5em 20%;
-  position: relative;
+  // padding: 5em 20%;
+  // position: relative;
+  // height: 100%;
 }
 
 .info a {
@@ -116,19 +124,19 @@ $bg-light-alpha: rgba(58, 56, 73, .8);
 // target small mobile
 @media (max-width: 425px) {
   .info {
-    padding: 5em 2%;
+    // padding: 5em 2%;
   }
 }
 
 // target tablet
 @media (max-width: 769px) {
   .btn-close {
-    margin: 2em !important;
+    // margin: 2em !important;
   }
 
   .info {
-    padding: 5em 10%;
-    position: static;
+    // padding: 5em 10%;
+    // position: static;
   }
 }
 
