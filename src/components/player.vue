@@ -126,6 +126,9 @@ export default {
       audio.addEventListener('abort', () => {
         this.player.readyState = audio.readyState;
       });
+
+      audio.addEventListener('error', () => console.log('Unknown error occurred'))
+      audio.addEventListener('stalled', () => console.log('Audio track stalled'))
     },
 
     // executes multiple functions on DOM events
@@ -299,6 +302,7 @@ input[type=range]::-moz-range-thumb {
 
   height: 20px;
   width: 20px;
+  border-color: transparent;
   border-radius: 100%;
   background: $primeColor;
   cursor: pointer;
