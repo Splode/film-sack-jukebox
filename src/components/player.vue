@@ -296,6 +296,7 @@ input[type=range]::-webkit-slider-thumb {
 
   height: 20px;
   width: 20px;
+  border-color: transparent;
   border-radius: 100%;
   background: $primeColor;
   cursor: pointer;
