@@ -72,10 +72,18 @@
         </div>
   
         <!-- initial loading screen -->
-        <app-worm-loader v-else></app-worm-loader>
+        <!-- <app-worm-loader v-else></app-worm-loader> -->
+        <div class="row" v-else>
+          <div class="col-12 Loader-wrapper">
+            <fingerprint-spinner
+              :size="250"
+              :color="'#dda01e'"
+            />
+          </div>
+        </div>
   
       </transition>
-  
+      
     </div>
   
   </main>
@@ -84,14 +92,17 @@
 <script>
 // TODO: write currently playing episode to local storage
 
-const moment = require('moment')
-const localforage = require('localforage')
-import jump from 'jump.js'
-
 import appInfo from './components/info'
 import appPlayer from './components/player'
 import appLoader from './components/loader'
 import appWormLoader from './components/worm-loader'
+
+import { FingerprintSpinner } from 'epic-spinners'
+
+import jump from 'jump.js'
+
+const localforage = require('localforage')
+const moment = require('moment')
 
 export default {
 
@@ -99,7 +110,8 @@ export default {
     appInfo,
     appPlayer,
     appLoader,
-    appWormLoader
+    appWormLoader,
+    FingerprintSpinner
   },
 
   computed: {
@@ -186,8 +198,6 @@ export default {
 <style lang="scss">
 @import "./assets/normalize.css";
 @import "./assets/reset.css";
-// @import "./assets/helper.scss";
-// @import "./assets/main.scss";
 @import './assets/_variables.scss';
 
 button {
@@ -229,6 +239,13 @@ ul {
 .icon-close {
   @include transition();
   cursor: pointer;
+}
+
+.Loader-wrapper {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
 }
 
 // .search-container {
