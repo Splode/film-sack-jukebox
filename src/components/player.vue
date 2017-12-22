@@ -10,10 +10,10 @@
 
       <!--play / pause-->
       <transition name="fade" mode="out-in">
-        <button class="btn-circle" @click="play" v-if="player.paused || player.paused === null">
+        <button class="btn-circle" title="Play" @click="play" v-if="player.paused || player.paused === null">
           <i class="material-icons">play_arrow</i>
         </button>
-        <button class="btn-circle" @click="pause" v-else>
+        <button class="btn-circle" title="Pause" @click="pause" v-else>
           <i class="material-icons">pause</i>
         </button>
       </transition>

@@ -107,11 +107,12 @@ ul li:first-child {
 }
 
 .btn-circle {
-  @include box-shadow($primeColor);
+  // @include box-shadow($primeColor);
   @include transition();
   align-items: center;
   background: $lightColorDark;
-  border: 1px solid #DDA01E;
+  box-shadow: 0 0 40px 10px rgba(221, 160, 30, 0.15);
+  border: 2px solid #DDA01E;
   border-radius: 100%;
   color: $primeColor;
   display: inline-flex;
@@ -120,8 +121,9 @@ ul li:first-child {
   width: 45px;
   height: 45px;
   &:active {
-    @include box-shadow($primeColor);
+    // @include box-shadow($primeColor);
     background: $primeColor;
+    box-shadow: 0 0 40px 10px rgba(221, 160, 30, 0.15);
     color: $backgroundColor;
   }
   &:focus {
@@ -157,8 +159,9 @@ ul li:first-child {
     // margin: 2em 1em;
   }
   .btn-circle:hover {
-    @include box-shadow($primeColor);
+    // @include box-shadow($primeColor);
     background: $primeColor;
+    box-shadow: 0 0 40px 10px rgba(221, 160, 30, .3);
     color: $backgroundColor;
   }
 }
