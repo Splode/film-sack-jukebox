@@ -13,12 +13,12 @@
         <div v-if="running" class="row mt-5">
   
           <header class="col-md-6 mx-auto mt-md-5">
-            <h1>Film Sack Jukebox</h1>
+            <h1 class="Title">Film Sack Jukebox</h1>
           </header>
   
           <!-- current episode -->
           <section class="col-md-8 mx-auto mt-3 mb-2">
-            <h2>{{ currentEpisode.title }}</h2>
+            <h2 class="Episode-title">{{ currentEpisode.title }}</h2>
             <p>{{ currentEpisode.date }}</p>
           </section>
   
@@ -219,11 +219,19 @@ ul {
   list-style-type: none;
 }
 
+.Episode-title {
+  text-shadow: 0 0 40px rgba(182, 31, 62, .75);
+}
+
 .EpisodeList-title {
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
   letter-spacing: inherit;
   margin-bottom: 1em;
+}
+
+.Title {
+  text-shadow: 0 0 50px rgba(221, 160, 30, 0.5);
 }
 
 .content {
